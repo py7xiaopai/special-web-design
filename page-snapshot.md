@@ -1,0 +1,588 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: 取经进度 0/81
+  - generic:
+    - img:
+      - generic: ▼ 长安（起点）
+      - generic: 火焰山
+      - generic: ▼ 西天灵山（终点）
+      - generic:
+        - generic [ref=e3] [cursor=pointer]:
+          - generic: 第1难 · 金蝉遭贬
+        - generic [ref=e5] [cursor=pointer]:
+          - generic: 第2难 · 出胎几杀
+        - generic [ref=e7] [cursor=pointer]:
+          - generic: 第3难 · 满月抛江
+        - generic [ref=e9] [cursor=pointer]:
+          - generic: 第4难 · 寻亲报冤
+        - generic [ref=e11] [cursor=pointer]:
+          - generic: 第5难 · 出城逢虎
+        - generic [ref=e13] [cursor=pointer]:
+          - generic: 第6难 · 落坑折从
+        - generic [ref=e15] [cursor=pointer]:
+          - generic: 第7难 · 双叉岭上
+        - generic [ref=e17] [cursor=pointer]:
+          - generic: 第8难 · 两界山头
+        - generic [ref=e19] [cursor=pointer]:
+          - generic: 第9难 · 陡涧换马
+        - generic [ref=e21] [cursor=pointer]:
+          - generic: 第10难 · 夜被火烧
+        - generic [ref=e23] [cursor=pointer]:
+          - generic: 第11难 · 失却袈裟
+        - generic [ref=e25] [cursor=pointer]:
+          - generic: 第12难 · 收降八戒
+        - generic [ref=e27] [cursor=pointer]:
+          - generic: 第13难 · 黄风怪阻
+        - generic [ref=e29] [cursor=pointer]:
+          - generic: 第14难 · 请求灵吉
+        - generic [ref=e31] [cursor=pointer]:
+          - generic: 第15难 · 流沙难渡
+        - generic [ref=e33] [cursor=pointer]:
+          - generic: 第16难 · 收得沙僧
+        - generic [ref=e35] [cursor=pointer]:
+          - generic: 第17难 · 四圣显化
+        - generic [ref=e37] [cursor=pointer]:
+          - generic: 第18难 · 五庄观中
+        - generic [ref=e39] [cursor=pointer]:
+          - generic: 第19难 · 难活人参
+        - generic [ref=e41] [cursor=pointer]:
+          - generic: 第20难 · 贬退心猿
+        - generic [ref=e43] [cursor=pointer]:
+          - generic: 第21难 · 黑松林失散
+        - generic [ref=e45] [cursor=pointer]:
+          - generic: 第22难 · 宝象国捎书
+        - generic [ref=e47] [cursor=pointer]:
+          - generic: 第23难 · 金銮殿变虎
+        - generic [ref=e49] [cursor=pointer]:
+          - generic: 第24难 · 平顶山逢魔
+        - generic [ref=e51] [cursor=pointer]:
+          - generic: 第25难 · 莲花洞高悬
+        - generic [ref=e53] [cursor=pointer]:
+          - generic: 第26难 · 乌鸡国救主
+        - generic [ref=e55] [cursor=pointer]:
+          - generic: 第27难 · 被魔化身
+        - generic [ref=e57] [cursor=pointer]:
+          - generic: 第28难 · 号山逢怪
+        - generic [ref=e59] [cursor=pointer]:
+          - generic: 第29难 · 风摄圣僧
+        - generic [ref=e61] [cursor=pointer]:
+          - generic: 第30难 · 心猿遭害
+        - generic [ref=e63] [cursor=pointer]:
+          - generic: 第31难 · 请圣降妖
+        - generic [ref=e65] [cursor=pointer]:
+          - generic: 第32难 · 黑河沉没
+        - generic [ref=e67] [cursor=pointer]:
+          - generic: 第33难 · 搬运车迟
+        - generic [ref=e69] [cursor=pointer]:
+          - generic: 第34难 · 大赌输赢
+        - generic [ref=e71] [cursor=pointer]:
+          - generic: 第35难 · 祛道兴僧
+        - generic [ref=e73] [cursor=pointer]:
+          - generic: 第36难 · 路逢大水
+        - generic [ref=e75] [cursor=pointer]:
+          - generic: 第37难 · 身落天河
+        - generic [ref=e77] [cursor=pointer]:
+          - generic: 第38难 · 鱼篮现身
+        - generic [ref=e79] [cursor=pointer]:
+          - generic: 第39难 · 金山遇怪
+        - generic [ref=e81] [cursor=pointer]:
+          - generic: 第40难 · 普天神难伏
+        - generic [ref=e83] [cursor=pointer]:
+          - generic: 第41难 · 问佛根源
+        - generic [ref=e85] [cursor=pointer]:
+          - generic: 第42难 · 吃水遭毒
+        - generic [ref=e87] [cursor=pointer]:
+          - generic: 第43难 · 西梁国留婚
+        - generic [ref=e89] [cursor=pointer]:
+          - generic: 第44难 · 琵琶洞受苦
+        - generic [ref=e91] [cursor=pointer]:
+          - generic: 第45难 · 再贬心猿
+        - generic [ref=e93] [cursor=pointer]:
+          - generic: 第46难 · 难辨猕猴
+        - generic [ref=e95] [cursor=pointer]:
+          - generic: 第47难 · 路阻火焰山
+        - generic [ref=e97] [cursor=pointer]:
+          - generic: 第48难 · 求取芭蕉扇
+        - generic [ref=e99] [cursor=pointer]:
+          - generic: 第49难 · 收缚魔王
+        - generic [ref=e101] [cursor=pointer]:
+          - generic: 第50难 · 赛城扫塔
+        - generic [ref=e103] [cursor=pointer]:
+          - generic: 第51难 · 取宝救僧
+        - generic [ref=e105] [cursor=pointer]:
+          - generic: 第52难 · 棘林吟咏
+        - generic [ref=e107] [cursor=pointer]:
+          - generic: 第53难 · 小雷音遇难
+        - generic [ref=e109] [cursor=pointer]:
+          - generic: 第54难 · 诸天神遭困
+        - generic [ref=e111] [cursor=pointer]:
+          - generic: 第55难 · 稀柿衕秽阻
+        - generic [ref=e113] [cursor=pointer]:
+          - generic: 第56难 · 朱紫国行医
+        - generic [ref=e115] [cursor=pointer]:
+          - generic: 第57难 · 拯救疲癃
+        - generic [ref=e117] [cursor=pointer]:
+          - generic: 第58难 · 降妖取后
+        - generic [ref=e119] [cursor=pointer]:
+          - generic: 第59难 · 七情迷没
+        - generic [ref=e121] [cursor=pointer]:
+          - generic: 第60难 · 多目遭伤
+        - generic [ref=e123] [cursor=pointer]:
+          - generic: 第61难 · 路阻狮驼
+        - generic [ref=e125] [cursor=pointer]:
+          - generic: 第62难 · 怪分三色
+        - generic [ref=e127] [cursor=pointer]:
+          - generic: 第63难 · 城里遇灾
+        - generic [ref=e129] [cursor=pointer]:
+          - generic: 第64难 · 请佛收魔
+        - generic [ref=e131] [cursor=pointer]:
+          - generic: 第65难 · 比丘救子
+        - generic [ref=e133] [cursor=pointer]:
+          - generic: 第66难 · 辨认真邪
+        - generic [ref=e135] [cursor=pointer]:
+          - generic: 第67难 · 松林救怪
+        - generic [ref=e137] [cursor=pointer]:
+          - generic: 第68难 · 僧房卧病
+        - generic [ref=e139] [cursor=pointer]:
+          - generic: 第69难 · 无底洞遭困
+        - generic [ref=e141] [cursor=pointer]:
+          - generic: 第70难 · 灭法国难行
+        - generic [ref=e143] [cursor=pointer]:
+          - generic: 第71难 · 隐雾山遇魔
+        - generic [ref=e145] [cursor=pointer]:
+          - generic: 第72难 · 凤仙郡求雨
+        - generic [ref=e147] [cursor=pointer]:
+          - generic: 第73难 · 失落兵器
+        - generic [ref=e149] [cursor=pointer]:
+          - generic: 第74难 · 会庆钉钯
+        - generic [ref=e151] [cursor=pointer]:
+          - generic: 第75难 · 竹节山遭难
+        - generic [ref=e153] [cursor=pointer]:
+          - generic: 第76难 · 玄英洞受苦
+        - generic [ref=e155] [cursor=pointer]:
+          - generic: 第77难 · 赶捉犀牛
+        - generic [ref=e157] [cursor=pointer]:
+          - generic: 第78难 · 天竺招婚
+        - generic [ref=e159] [cursor=pointer]:
+          - generic: 第79难 · 铜台府监禁
+        - generic [ref=e161] [cursor=pointer]:
+          - generic: 第80难 · 凌云渡脱胎
+        - generic [ref=e163] [cursor=pointer]:
+          - generic: 第81难 · 通天河遇鼋湿经书
+  - generic [ref=e165]:
+    - button "✕" [ref=e166] [cursor=pointer]
+    - heading "—" [level=2] [ref=e168]
+    - generic [ref=e169]:
+      - heading "📜 主要事件" [level=4] [ref=e170]
+      - list
+    - generic [ref=e172]:
+      - text: 📍
+      - text: "| 📖"
+  - generic [ref=e173]:
+    - generic [ref=e174]: 未到达
+    - generic [ref=e176]: 已攻克
+  - generic [ref=e178]:
+    - generic [ref=e179]:
+      - generic:
+        - strong: 第 1 难
+        - text: · 金蝉遭贬
+        - text: 📍 西天灵山
+    - generic [ref=e180]:
+      - generic:
+        - strong: 第 2 难
+        - text: · 出胎几杀
+        - text: 📍 洪江渡口
+    - generic [ref=e181]:
+      - generic:
+        - strong: 第 3 难
+        - text: · 满月抛江
+        - text: 📍 江州
+    - generic [ref=e182]:
+      - generic:
+        - strong: 第 4 难
+        - text: · 寻亲报冤
+        - text: 📍 江州
+    - generic [ref=e183]:
+      - generic:
+        - strong: 第 5 难
+        - text: · 出城逢虎
+        - text: 📍 双叉岭
+    - generic [ref=e184]:
+      - generic:
+        - strong: 第 6 难
+        - text: · 落坑折从
+        - text: 📍 双叉岭
+    - generic [ref=e185]:
+      - generic:
+        - strong: 第 7 难
+        - text: · 双叉岭上
+        - text: 📍 双叉岭
+    - generic [ref=e186]:
+      - generic:
+        - strong: 第 8 难
+        - text: · 两界山头
+        - text: 📍 两界山(五行山)
+    - generic [ref=e187]:
+      - generic:
+        - strong: 第 9 难
+        - text: · 陡涧换马
+        - text: 📍 蛇盘山鹰愁涧
+    - generic [ref=e188]:
+      - generic:
+        - strong: 第 10 难
+        - text: · 夜被火烧
+        - text: 📍 观音禅院
+    - generic [ref=e189]:
+      - generic:
+        - strong: 第 11 难
+        - text: · 失却袈裟
+        - text: 📍 黑风山黑风洞
+    - generic [ref=e190]:
+      - generic:
+        - strong: 第 12 难
+        - text: · 收降八戒
+        - text: 📍 高老庄
+    - generic [ref=e191]:
+      - generic:
+        - strong: 第 13 难
+        - text: · 黄风怪阻
+        - text: 📍 黄风岭黄风洞
+    - generic [ref=e192]:
+      - generic:
+        - strong: 第 14 难
+        - text: · 请求灵吉
+        - text: 📍 小须弥山
+    - generic [ref=e193]:
+      - generic:
+        - strong: 第 15 难
+        - text: · 流沙难渡
+        - text: 📍 流沙河
+    - generic [ref=e194]:
+      - generic:
+        - strong: 第 16 难
+        - text: · 收得沙僧
+        - text: 📍 流沙河
+    - generic [ref=e195]:
+      - generic:
+        - strong: 第 17 难
+        - text: · 四圣显化
+        - text: 📍 西牛贺洲某庄院
+    - generic [ref=e196]:
+      - generic:
+        - strong: 第 18 难
+        - text: · 五庄观中
+        - text: 📍 万寿山五庄观
+    - generic [ref=e197]:
+      - generic:
+        - strong: 第 19 难
+        - text: · 难活人参
+        - text: 📍 五庄观
+    - generic [ref=e198]:
+      - generic:
+        - strong: 第 20 难
+        - text: · 贬退心猿
+        - text: 📍 白虎岭
+    - generic [ref=e199]:
+      - generic:
+        - strong: 第 21 难
+        - text: · 黑松林失散
+        - text: 📍 黑松林碗子山波月洞
+    - generic [ref=e200]:
+      - generic:
+        - strong: 第 22 难
+        - text: · 宝象国捎书
+        - text: 📍 宝象国
+    - generic [ref=e201]:
+      - generic:
+        - strong: 第 23 难
+        - text: · 金銮殿变虎
+        - text: 📍 宝象国
+    - generic [ref=e202]:
+      - generic:
+        - strong: 第 24 难
+        - text: · 平顶山逢魔
+        - text: 📍 平顶山莲花洞
+    - generic [ref=e203]:
+      - generic:
+        - strong: 第 25 难
+        - text: · 莲花洞高悬
+        - text: 📍 平顶山莲花洞
+    - generic [ref=e204]:
+      - generic:
+        - strong: 第 26 难
+        - text: · 乌鸡国救主
+        - text: 📍 乌鸡国
+    - generic [ref=e205]:
+      - generic:
+        - strong: 第 27 难
+        - text: · 被魔化身
+        - text: 📍 乌鸡国
+    - generic [ref=e206]:
+      - generic:
+        - strong: 第 28 难
+        - text: · 号山逢怪
+        - text: 📍 号山枯松涧火云洞
+    - generic [ref=e207]:
+      - generic:
+        - strong: 第 29 难
+        - text: · 风摄圣僧
+        - text: 📍 号山
+    - generic [ref=e208]:
+      - generic:
+        - strong: 第 30 难
+        - text: · 心猿遭害
+        - text: 📍 号山
+    - generic [ref=e209]:
+      - generic:
+        - strong: 第 31 难
+        - text: · 请圣降妖
+        - text: 📍 号山
+    - generic [ref=e210]:
+      - generic:
+        - strong: 第 32 难
+        - text: · 黑河沉没
+        - text: 📍 衡阳峪黑水河
+    - generic [ref=e211]:
+      - generic:
+        - strong: 第 33 难
+        - text: · 搬运车迟
+        - text: 📍 车迟国
+    - generic [ref=e212]:
+      - generic:
+        - strong: 第 34 难
+        - text: · 大赌输赢
+        - text: 📍 车迟国
+    - generic [ref=e213]:
+      - generic:
+        - strong: 第 35 难
+        - text: · 祛道兴僧
+        - text: 📍 车迟国
+    - generic [ref=e214]:
+      - generic:
+        - strong: 第 36 难
+        - text: · 路逢大水
+        - text: 📍 通天河
+    - generic [ref=e215]:
+      - generic:
+        - strong: 第 37 难
+        - text: · 身落天河
+        - text: 📍 通天河
+    - generic [ref=e216]:
+      - generic:
+        - strong: 第 38 难
+        - text: · 鱼篮现身
+        - text: 📍 通天河
+    - generic [ref=e217]:
+      - generic:
+        - strong: 第 39 难
+        - text: · 金山遇怪
+        - text: 📍 金兜山金兜洞
+    - generic [ref=e218]:
+      - generic:
+        - strong: 第 40 难
+        - text: · 普天神难伏
+        - text: 📍 金兜山
+    - generic [ref=e219]:
+      - generic:
+        - strong: 第 41 难
+        - text: · 问佛根源
+        - text: 📍 金兜山
+    - generic [ref=e220]:
+      - generic:
+        - strong: 第 42 难
+        - text: · 吃水遭毒
+        - text: 📍 西梁女国解阳山
+    - generic [ref=e221]:
+      - generic:
+        - strong: 第 43 难
+        - text: · 西梁国留婚
+        - text: 📍 西梁女国
+    - generic [ref=e222]:
+      - generic:
+        - strong: 第 44 难
+        - text: · 琵琶洞受苦
+        - text: 📍 毒敌山琵琶洞
+    - generic [ref=e223]:
+      - generic:
+        - strong: 第 45 难
+        - text: · 再贬心猿
+        - text: 📍 西行路上
+    - generic [ref=e224]:
+      - generic:
+        - strong: 第 46 难
+        - text: · 难辨猕猴
+        - text: 📍 西天灵山
+    - generic [ref=e225]:
+      - generic:
+        - strong: 第 47 难
+        - text: · 路阻火焰山
+        - text: 📍 火焰山
+    - generic [ref=e226]:
+      - generic:
+        - strong: 第 48 难
+        - text: · 求取芭蕉扇
+        - text: 📍 火焰山芭蕉洞
+    - generic [ref=e227]:
+      - generic:
+        - strong: 第 49 难
+        - text: · 收缚魔王
+        - text: 📍 火焰山
+    - generic [ref=e228]:
+      - generic:
+        - strong: 第 50 难
+        - text: · 赛城扫塔
+        - text: 📍 祭赛国金光寺
+    - generic [ref=e229]:
+      - generic:
+        - strong: 第 51 难
+        - text: · 取宝救僧
+        - text: 📍 乱石山碧波潭
+    - generic [ref=e230]:
+      - generic:
+        - strong: 第 52 难
+        - text: · 棘林吟咏
+        - text: 📍 荆棘岭木仙庵
+    - generic [ref=e231]:
+      - generic:
+        - strong: 第 53 难
+        - text: · 小雷音遇难
+        - text: 📍 小西天小雷音寺
+    - generic [ref=e232]:
+      - generic:
+        - strong: 第 54 难
+        - text: · 诸天神遭困
+        - text: 📍 小西天
+    - generic [ref=e233]:
+      - generic:
+        - strong: 第 55 难
+        - text: · 稀柿衕秽阻
+        - text: 📍 七绝山稀柿衕
+    - generic [ref=e234]:
+      - generic:
+        - strong: 第 56 难
+        - text: · 朱紫国行医
+        - text: 📍 朱紫国
+    - generic [ref=e235]:
+      - generic:
+        - strong: 第 57 难
+        - text: · 拯救疲癃
+        - text: 📍 朱紫国麒麟山獬豸洞
+    - generic [ref=e236]:
+      - generic:
+        - strong: 第 58 难
+        - text: · 降妖取后
+        - text: 📍 朱紫国
+    - generic [ref=e237]:
+      - generic:
+        - strong: 第 59 难
+        - text: · 七情迷没
+        - text: 📍 盘丝洞
+    - generic [ref=e238]:
+      - generic:
+        - strong: 第 60 难
+        - text: · 多目遭伤
+        - text: 📍 黄花观
+    - generic [ref=e239]:
+      - generic:
+        - strong: 第 61 难
+        - text: · 路阻狮驼
+        - text: 📍 狮驼岭狮驼洞
+    - generic [ref=e240]:
+      - generic:
+        - strong: 第 62 难
+        - text: · 怪分三色
+        - text: 📍 狮驼山
+    - generic [ref=e241]:
+      - generic:
+        - strong: 第 63 难
+        - text: · 城里遇灾
+        - text: 📍 狮驼城
+    - generic [ref=e242]:
+      - generic:
+        - strong: 第 64 难
+        - text: · 请佛收魔
+        - text: 📍 狮驼城
+    - generic [ref=e243]:
+      - generic:
+        - strong: 第 65 难
+        - text: · 比丘救子
+        - text: 📍 比丘国
+    - generic [ref=e244]:
+      - generic:
+        - strong: 第 66 难
+        - text: · 辨认真邪
+        - text: 📍 比丘国
+    - generic [ref=e245]:
+      - generic:
+        - strong: 第 67 难
+        - text: · 松林救怪
+        - text: 📍 黑松林
+    - generic [ref=e246]:
+      - generic:
+        - strong: 第 68 难
+        - text: · 僧房卧病
+        - text: 📍 镇海禅林寺
+    - generic [ref=e247]:
+      - generic:
+        - strong: 第 69 难
+        - text: · 无底洞遭困
+        - text: 📍 陷空山无底洞
+    - generic [ref=e248]:
+      - generic:
+        - strong: 第 70 难
+        - text: · 灭法国难行
+        - text: 📍 灭法国
+    - generic [ref=e249]:
+      - generic:
+        - strong: 第 71 难
+        - text: · 隐雾山遇魔
+        - text: 📍 隐雾山折岳连环洞
+    - generic [ref=e250]:
+      - generic:
+        - strong: 第 72 难
+        - text: · 凤仙郡求雨
+        - text: 📍 凤仙郡
+    - generic [ref=e251]:
+      - generic:
+        - strong: 第 73 难
+        - text: · 失落兵器
+        - text: 📍 玉华州
+    - generic [ref=e252]:
+      - generic:
+        - strong: 第 74 难
+        - text: · 会庆钉钯
+        - text: 📍 竹节山九曲盘桓洞
+    - generic [ref=e253]:
+      - generic:
+        - strong: 第 75 难
+        - text: · 竹节山遭难
+        - text: 📍 竹节山九曲盘桓洞
+    - generic [ref=e254]:
+      - generic:
+        - strong: 第 76 难
+        - text: · 玄英洞受苦
+        - text: 📍 金平府青龙山玄英洞
+    - generic [ref=e255]:
+      - generic:
+        - strong: 第 77 难
+        - text: · 赶捉犀牛
+        - text: 📍 金平府
+    - generic [ref=e256]:
+      - generic:
+        - strong: 第 78 难
+        - text: · 天竺招婚
+        - text: 📍 天竺国布金禅寺
+    - generic [ref=e257]:
+      - generic:
+        - strong: 第 79 难
+        - text: · 铜台府监禁
+        - text: 📍 铜台府
+    - generic [ref=e258]:
+      - generic:
+        - strong: 第 80 难
+        - text: · 凌云渡脱胎
+        - text: 📍 凌云渡
+    - generic [ref=e259]:
+      - generic:
+        - strong: 第 81 难
+        - text: · 通天河遇鼋湿经书
+        - text: 📍 通天河
