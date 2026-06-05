@@ -1,5 +1,6 @@
 # ===== 开发产物（截图/快照/临时）=====
 screenshot-*.png
+shot-*.png
 final-*.png
 comfyui-*.png
 demo-*.png
@@ -8,9 +9,10 @@ new-frontend.png
 page-snapshot.md
 .playwright-mcp/
 
-# ===== 早期探索的程序生成背景（已弃用，HTML 用 SVG 自绘）=====
+# ===== 早期探索的程序生成背景（已弃用，HTML 用 CSS 渐变代替）=====
 map-bg.png
 map-bg-vertical.png
+illustrations/z-bg-*.png
 
 # ===== Z-Image 生成断点标记 =====
 illustrations/*.zimage_done

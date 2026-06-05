@@ -167,6 +167,7 @@ def main():
 
     success = 0
     fail = 0
+    consecutive_fails = 0
     start_all = time.time()
     for i, (fn, name) in enumerate(queue, 1):
         prompt, seed = get_prompt(name)
@@ -174,26 +175,34 @@ def main():
 
         t0 = time.time()
         try:
-            # 限流：避免连续请求压垮 ComfyUI
-            time.sleep(0.5)
+            # 限流 + 防 OOM：每张前检查 GPU；连续失败自动暂停
+            if consecutive_fails >= 3:
+                print(f"  ⚠ 连续失败 {consecutive_fails} 次，暂停 30s 让 ComfyUI 恢复...")
+                time.sleep(30)
+                consecutive_fails = 0
+            else:
+                time.sleep(2)
+
             client_id = f"zimg_{int(time.time())}_{i}"
             qres = queue_prompt(build_workflow(prompt, seed), client_id)
             pid = qres.get("prompt_id")
             if not pid:
                 print(f"  ❌ 提交失败: {qres}")
                 fail += 1
+                consecutive_fails += 1
                 continue
 
             hist, err = wait_for_done(pid, timeout=180)
             if err == "timeout":
                 print(f"  ⏱ 超时（180s）")
                 fail += 1
+                consecutive_fails += 1
                 continue
             if err is not None:
                 print(f"  ❌ 错误: {json.dumps(err, ensure_ascii=False)[:200]}")
                 fail += 1
-                # 等待 ComfyUI 恢复
-                time.sleep(5)
+                consecutive_fails += 1
+                time.sleep(15)
                 continue
 
             # 找 SaveImage 输出
@@ -217,14 +226,16 @@ def main():
                     break
             if saved:
                 success += 1
+                consecutive_fails = 0
             else:
                 print(f"  ❌ 输出无图像")
                 fail += 1
+                consecutive_fails += 1
         except Exception as e:
             print(f"  ❌ 异常: {e}")
             fail += 1
-            # 异常时等待更久
-            time.sleep(10)
+            consecutive_fails += 1
+            time.sleep(15)
 
     dt_all = time.time() - start_all
     print(f"\n=== 完成: 成功 {success} / 失败 {fail} · 用时 {dt_all:.1f}s · 平均 {dt_all/max(success,1):.1f}s/张 ===")

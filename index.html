@@ -4,33 +4,60 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>西游取经图 · 九九八十一难</title>
+<!-- 字体预加载 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --parchment: #f7f0db;
-  --ink: #3c2415;
-  --gold: #b8943c;
-  --cinnabar: #c23a2b;
-  --paper: #faf6eb;
-  --border: #d4c5a0;
+  --parchment: #f2e4c9;       /* 仿古宣纸暖米色 */
+  --ink: #f0e6d0;              /* 亮奶白色（暗底上用） */
+  --gold: #e8b830;             /* 亮金色（增强） */
+  --cinnabar: #e85040;         /* 朱砂红 */
+  --paper: #f8efdc;            /* 浅宣纸 */
+  --border: #c4a97d;           /* 古铜 */
+  --ochre: #d4a060;            /* 赭石（提亮） */
+  --indigo: #7a9ac8;           /* 靛青（提亮） */
+  --stone-blue: #6aacac;       /* 石青（提亮） */
+  --tea-brown: #b89870;        /* 茶色（提亮） */
   --danger-1: #5b8c5a;
   --danger-2: #8b9c3a;
   --danger-3: #d4a030;
-  --danger-4: #e07b30;
-  --danger-5: #c23a2b;
+  --danger-4: #e89830;
+  --danger-5: #e85040;
   --panel-w: 420px;
   --bar-h: 5px;
   --map-h: 100vh;
-  --map-w: 5000px;  /* 超宽地图 */
+  --map-w: 5000px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'KaiTi', serif;
-  background: var(--parchment);
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'KaiTi', 'SimSun', serif;
+  /* 新海诚风格梦幻天空：紫→品→橙→金→奶白 */
+  background: linear-gradient(180deg,
+    #13062e 0%,      /* 深紫夜空 */
+    #26145a 12%,     /* 暮紫 */
+    #5a3078 25%,     /* 品紫 */
+    #a43d5e 42%,     /* 绯红晚霞 */
+    #d4694a 58%,     /* 暖橙 */
+    #eca654 72%,     /* 金黄霞光 */
+    #f9d38b 85%,     /* 淡金中层 */
+    #fef0c8 95%,     /* 奶白雾底 */
+    #fdf8ee 100%     /* 极淡底色 */
+  );
+  background-attachment: fixed;
   color: var(--ink);
-  overflow: hidden;  /* 禁止纵向滚动 */
+  overflow: hidden;
   height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 标题使用书法字体 */
+.panel-name, #map-svg text[font-weight="bold"], .seal-text {
+  font-family: 'ZCOOL XiaoWei', 'KaiTi', 'STKaiti', 'Noto Serif SC', serif;
 }
 
 /* ===== 进度条 ===== */
@@ -46,7 +73,7 @@ body {
 }
 #progress-num {
   position: fixed; top: 10px; right: 20px; z-index: 1001;
-  font-size: 13px; color: var(--ink); opacity: 0.55;
+  font-size: 13px; color: rgba(240,230,208,0.7); opacity: 0.85;
 }
 
 /* ===== 地图容器 — 横向滚动 ===== */
@@ -67,10 +94,38 @@ body {
 #map-content {
   height: 100vh; width: var(--map-w);
   position: relative;
+  /* 梦幻云雾渐变：半透明暖光层叠 */
+  background:
+    radial-gradient(ellipse at 75% 25%, rgba(255,210,100,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 60%, rgba(200,150,220,0.10) 0%, transparent 45%),
+    radial-gradient(ellipse at 55% 80%, rgba(255,180,90,0.12) 0%, transparent 50%),
+    linear-gradient(180deg,
+      rgba(20,5,40,0.30) 0%,
+      rgba(60,20,50,0.15) 30%,
+      rgba(200,130,70,0.08) 60%,
+      rgba(255,220,150,0.15) 85%,
+      rgba(252,245,230,0.20) 100%
+    );
+}
+
+/* 云霞光层（替代原水墨晕染） */
+#map-content::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse at 70% 15%, rgba(255,230,150,0.25) 0%, transparent 40%),
+    radial-gradient(ellipse at 85% 20%, rgba(255,200,100,0.30) 0%, transparent 30%),
+    radial-gradient(ellipse at 15% 50%, rgba(180,130,200,0.12) 0%, transparent 40%),
+    radial-gradient(ellipse at 40% 70%, rgba(255,170,120,0.15) 0%, transparent 45%);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  pointer-events: none;
 }
 #map-content svg {
   width: 100%; height: 100%;
   display: block;
+  position: relative;
+  z-index: 1;
 }
 
 /* ===== 节点 ===== */
@@ -80,7 +135,7 @@ body {
   fill: var(--paper); stroke-width: 3;
   transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.node-ring:hover { r: 14; stroke-width: 4; }
+.node-ring:hover { r: 14; stroke-width: 4; filter: drop-shadow(0 0 5px var(--gold)); }
 .node-ring.passed { fill: var(--gold); }
 
 .node-number {
@@ -96,13 +151,14 @@ body {
 
 /* 路线 */
 .route-bg {
-  fill: none; stroke: rgba(184,148,60,0.18); stroke-width: 3.5;
+  fill: none; stroke: var(--gold); stroke-width: 2.5;
+  stroke-dasharray: 8, 8; opacity: 0.3;
   stroke-linecap: round;
 }
 .route-fg {
-  fill: none; stroke: var(--cinnabar); stroke-width: 4;
+  fill: none; stroke: #f0c040; stroke-width: 3.5;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 6px rgba(194,58,43,0.4));
+  filter: drop-shadow(0 0 12px rgba(240,192,64,0.5)) drop-shadow(0 0 30px rgba(240,160,20,0.25));
 }
 
 /* ===== 左侧详情面板 ===== */
@@ -191,26 +247,436 @@ body {
   50% { opacity: 0.7; }
 }
 
+/* ===== 移动端优化 ===== */
 @media (max-width: 640px) {
   :root { --panel-w: 100vw; }
+  #panel { left: -100vw; }
+  #panel .close { top: 10px; right: 10px; }
+  .panel-name { font-size: 22px; }
+  .panel-meta { font-size: 12px; gap: 6px; }
+  #panel-inner { padding: 20px 16px; }
+  #progress-num { font-size: 11px; top: 8px; right: 12px; }
+  #hint { font-size: 11px; bottom: 16px; }
+  /* 移动端地图用手势拖动 */
+  #map-viewport { -webkit-overflow-scrolling: touch; scroll-behavior: auto; }
+  .node-label { font-size: 10px; }
 }
+
+/* ===== 进度条增强：里程碑标记 ===== */
+#progress-milestones {
+  position: fixed; top: 8px; left: 0; right: 0; z-index: 999;
+  height: 12px; pointer-events: none;
+}
+.progress-dot {
+  position: absolute; top: 2px;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold);
+  transform: translateX(-50%);
+  transition: opacity 0.3s;
+  opacity: 0.2;
+}
+.progress-dot.reached { opacity: 0.6; background: var(--cinnabar); }
+.progress-dot.milestone { width: 7px; height: 7px; top: 1px; }
+
+/* ===== 路线行进标记点（唐僧动画标记） ===== */
+#traveler-dot {
+  position: absolute; z-index: 100;
+  pointer-events: none;
+  transition: left 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+              top 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.traveler-container {
+  transform: translate(-50%, -50%);
+}
+.traveler-glow {
+  animation: travelerPulse 2s ease-in-out infinite;
+}
+@keyframes travelerPulse {
+  0%, 100% { opacity: 0.4; r: 6; }
+  50% { opacity: 0.8; r: 9; }
+}
+
+/* ===== 节点点击涟漪 ===== */
+.node-ripple {
+  animation: nodeRipple 0.6s ease-out forwards;
+}
+@keyframes nodeRipple {
+  from { r: 9; opacity: 0.7; stroke-width: 3; }
+  to { r: 35; opacity: 0; stroke-width: 0.5; }
+}
+
+/* ===== 面板导航按钮 ===== */
+.panel-nav {
+  display: flex; gap: 10px; margin-bottom: 18px;
+}
+.panel-nav button {
+  flex: 1; padding: 8px 14px;
+  border: 1px solid var(--border); border-radius: 4px;
+  background: var(--parchment);
+  color: var(--ink); font-size: 13px; cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.panel-nav button:hover {
+  background: var(--gold); color: #fff; border-color: var(--gold);
+}
+.panel-nav button:disabled {
+  opacity: 0.3; cursor: not-allowed;
+}
+
+/* ===== 开屏动画 ===== */
+#intro-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: linear-gradient(180deg, #13062e 0%, #26145a 30%, #a43d5e 70%, #fef0c8 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  animation: fadeOut 0.8s 2s forwards;
+  pointer-events: none;
+}
+@keyframes fadeOut {
+  to { opacity: 0; }
+}
+#intro-overlay .intro-title {
+  font-family: 'ZCOOL XiaoWei', 'KaiTi', serif;
+  font-size: clamp(28px, 5vw, 44px); color: #f0e6d0;
+  animation: titleReveal 1.5s ease-out forwards;
+  text-align: center;
+}
+@keyframes titleReveal {
+  from { opacity: 0; transform: translateY(20px); letter-spacing: 0.3em; }
+  to { opacity: 1; transform: translateY(0); letter-spacing: 0.15em; }
+}
+#intro-overlay .intro-sub {
+  font-size: clamp(13px, 2vw, 16px); color: rgba(240,230,208,0.8); opacity: 0;
+  animation: subReveal 1s 0.8s ease-out forwards;
+  margin-top: 12px;
+}
+@keyframes subReveal {
+  to { opacity: 0.5; }
+}
+
+/* ===== 键盘提示 ===== */
+#kbd-hint {
+  position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
+  font-size: 11px; color: var(--ink); opacity: 0;
+  z-index: 50; pointer-events: none;
+  transition: opacity 0.5s;
+  background: rgba(242,228,201,0.85); padding: 4px 12px;
+  border-radius: 12px; border: 1px solid var(--border);
+  backdrop-filter: blur(4px);
+}
+#kbd-hint kbd {
+  font-family: monospace; font-size: 10px;
+  background: rgba(60,36,21,0.08); padding: 1px 5px;
+  border-radius: 3px; border: 1px solid var(--border);
+}
+
+/* ===== 面板装饰条 ===== */
+.panel-header-ornament {
+  text-align: center; margin-bottom: 16px;
+  color: var(--gold); font-size: 11px; letter-spacing: 0.2em;
+}
+
+/* ===== SVG 增强 ===== */
+/* 节点内点 */
+.node-dot {
+  transition: opacity 0.3s, r 0.3s;
+}
+.click-node:not(:hover) .node-dot:not(.passed) {
+  opacity: 0.25;
+}
+.click-node:hover .node-dot {
+  opacity: 1;
+  r: 4;
+}
+.node-dot.passed {
+  opacity: 1;
+  r: 4;
+}
+
+/* 高危脉冲光环 */
+.danger-pulse-ring {
+  animation: dPulse 2s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+@keyframes dPulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.2); }
+}
+
+/* 路线标记点 */
+.route-marker {
+  fill: var(--gold);
+  transition: opacity 0.4s, fill 0.4s;
+}
+.route-marker:not(.passed) {
+  opacity: 0.1;
+}
+.route-marker.passed {
+  opacity: 0.6;
+  fill: var(--cinnabar);
+}
+
+/* 地标装饰线 */
+.landmark-line {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1;
+  opacity: 0.25;
+}
+.landmark-dot {
+  fill: var(--gold);
+  opacity: 0.3;
+}
+.landmark-icon {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.2;
+  opacity: 0.3;
+}
+
+/* 祥云动画 */
+.cloud-drift {
+  animation: cloudDrift 60s linear infinite alternate;
+}
+@keyframes cloudDrift {
+  from { transform: translateX(0); }
+  to { transform: translateX(30px); }
+}
+
+/* ===== 唐风古韵 ===== */
+/* 卷轴边框 */
+.scroll-frame-outer { fill: none; stroke: rgba(240,230,208,0.4); stroke-width: 3; }
+.scroll-frame-inner { fill: none; stroke: var(--gold); stroke-width: 1; opacity: 0.6; }
+.scroll-corner { fill: #f0e6d0; opacity: 0.08; }
+
+/* 印章 */
+.seal-rect { fill: var(--cinnabar); }
+.seal-text { fill: #f8efdc; font-weight: bold; text-anchor: middle; dominant-baseline: central; font-family: 'KaiTi','STKaiti','Noto Serif SC',serif; letter-spacing: 1px; }
+
+/* 水墨远山层次（暗底用亮色 + 提高透明度） */
+.ink-mtn-bg { fill: var(--ink); opacity: 0.08; }
+.ink-mtn-md { fill: var(--ink); opacity: 0.14; }
+.ink-mtn-fg { fill: var(--ink); opacity: 0.22; }
+
+/* 火焰山赭石调 */
+.mtn-fire { fill: var(--ochre); opacity: 0.35; }
+.fire-stroke { stroke: var(--cinnabar); stroke-width: 1.5; fill: none; opacity: 0.4; }
+
+/* 灵山金色调 */
+.mtn-sacred { fill: var(--ink); opacity: 0.22; }
+
+/* 松柏剪影 */
+.pine-foliage { fill: var(--ink); opacity: 0.22; }
+.pine-trunk { stroke: var(--ink); stroke-width: 0.8; fill: none; opacity: 0.22; }
+
+/* 莲花 */
+.lotus-petal { fill: none; stroke: var(--gold); stroke-width: 0.8; opacity: 0.3; }
+
+/* 飘带 */
+.ribbon { fill: none; stroke: var(--cinnabar); stroke-width: 1.8; opacity: 0.18; stroke-linecap: round; }
+
+/* 蹄印/锡杖印 */
+.trail-mark { fill: var(--cinnabar); opacity: 0.25; }
+
+/* 人物剪影 */
+.char-fig { fill: var(--ink); opacity: 0.35; }
+.char-staff { stroke: var(--ink); stroke-width: 1; fill: none; opacity: 0.35; }
+
+/* ===== 精细古风增强 ===== */
+/* 宣纸纹理 */
+.paper-text { fill: #d4b896; opacity: 0.1; }
+.tea-stain { fill: #8b7355; }
+.worn-edge { fill: none; stroke: #5c4030; stroke-width: 0.5; opacity: 0.06; }
+
+/* 青绿山水波浪 */
+.wave-line { fill: none; stroke: var(--stone-blue); stroke-width: 0.8; opacity: 0.2; stroke-linecap: round; }
+
+/* 红金祥云 */
+.cloud-rg { fill: var(--cinnabar); stroke: var(--gold); stroke-width: 0.5; opacity: 0.08; }
+
+/* 火焰山烈焰分层 */
+.flame-core { fill: #ff6b35; opacity: 0.15; }
+.flame-mid { fill: #f0421a; opacity: 0.12; }
+.flame-outer { fill: #c23a2b; opacity: 0.08; }
+
+/* 灵山佛光 */
+.buddha-ray { fill: none; stroke: var(--gold); stroke-width: 0.5; opacity: 0.12; }
+.buddha-glow { fill: var(--gold); opacity: 0.03; }
+
+/* 磨损边缘 */
+.edge-tear { fill: #c4a97d; opacity: 0.05; }
+
+/* 精细城楼 */
+.tower-body { fill: var(--ink); opacity: 0.25; }
+.tower-roof { fill: var(--ink); opacity: 0.35; }
+.tower-window { fill: var(--paper); opacity: 0.15; }
+
+/* 朱砂印地标 */
+.seal-landmark { fill: var(--cinnabar); }
+.seal-landmark-text { fill: #f8efdc; font-weight: bold; text-anchor: middle; dominant-baseline: central; font-family: 'KaiTi','STKaiti',serif; text-shadow: 0 0 6px rgba(0,0,0,0.6); }
+
+/* ===== 动漫感 "注入灵魂" ===== */
+/* 大气光晕（替代深色暗角 — 暖金色调） */
+#map-content::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    radial-gradient(ellipse at 85% 18%, rgba(255,230,120,0.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 90%, rgba(255,180,60,0.15) 0%, transparent 45%),
+    radial-gradient(ellipse at center, transparent 20%, rgba(10,5,25,0.30) 100%);
+  pointer-events: none;
+}
+
+/* 丁达尔光柱（金色光束从灵山方向斜射） */
+#god-rays {
+  position: fixed; inset: 0; z-index: 3;
+  pointer-events: none;
+  opacity: 0.6;
+  background:
+    linear-gradient(195deg,
+      transparent 40%,
+      rgba(255,210,100,0.03) 45%,
+      rgba(255,190,80,0.06) 47%,
+      transparent 49%),
+    linear-gradient(192deg,
+      transparent 35%,
+      rgba(255,200,90,0.04) 42%,
+      rgba(255,180,70,0.05) 44%,
+      transparent 47%),
+    linear-gradient(188deg,
+      transparent 30%,
+      rgba(255,220,110,0.03) 38%,
+      rgba(255,190,90,0.04) 40%,
+      transparent 43%);
+  mask-image: radial-gradient(ellipse at 82% 22%, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 82% 22%, black 30%, transparent 70%);
+}
+
+/* 粒子背景层 */
+#particles-canvas {
+  position: fixed; inset: 0; z-index: 2;
+  pointer-events: none;
+}
+
+/* 噪点纹理通过 SVG 内置实现（无需额外伪元素） */
+
+/* 面板 → 毛玻璃梦幻效果 */
+#panel {
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  background: rgba(20,8,30,0.78);
+  box-shadow: 4px 0 40px rgba(20,5,40,0.4), inset 0 0 1px rgba(201,168,76,0.2);
+}
+#panel.open {
+  box-shadow: 4px 0 50px rgba(20,5,40,0.5), inset 0 0 1px rgba(201,168,76,0.3);
+}
+
+/* 面板文字在暗底上使用亮色 */
+#panel, #panel .close { color: #f0e6d0; }
+#panel .close { background: rgba(255,255,255,0.08); border-color: rgba(201,168,76,0.3); }
+#panel .close:hover { background: var(--cinnabar); color: #fff; border-color: var(--cinnabar); }
+.panel-trib { color: var(--gold); }
+.panel-name { color: #f0c040; }
+.panel-meta { color: #d4c0a0; opacity: 0.8; }
+.demon-block { background: rgba(255,255,255,0.06); border-color: rgba(201,168,76,0.2); }
+.demon-block h4 { color: #f0c040; }
+.demon-block .desc { color: #d4c0a0; opacity: 0.9; }
+.events-section h4 { color: #f0e6d0; }
+.events-section li { color: #d4c0a0; }
+.events-section li::before { color: var(--gold); }
+.panel-header-ornament { color: var(--gold); }
+.panel-nav button { background: rgba(255,255,255,0.06); border-color: rgba(201,168,76,0.25); color: #d4c0a0; }
+.panel-nav button:hover { background: var(--gold); color: #1a0a2e; border-color: var(--gold); }
+.panel-nav button:disabled { opacity: 0.25; }
+
+/* 节点悬停 → "灵力爆发"光效 */
+.click-node:hover .node-ring {
+  filter: drop-shadow(0 0 12px var(--gold)) drop-shadow(0 0 25px rgba(201,168,76,0.3));
+}
+.click-node:hover .node-dot {
+  filter: drop-shadow(0 0 8px var(--cinnabar));
+}
+
+/* 遮罩层毛玻璃 */
+#overlay {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  background: rgba(10,5,25,0.25);
+}
+
+/* 恶魔卡片悬停 */
+.demon-block {
+  transition: all 0.3s ease;
+}
+.demon-block:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(60,36,21,0.12);
+}
+
+/* 路线 "灵力流动" 动画 */
+.route-glow {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 0.15;
+  filter: drop-shadow(0 0 12px var(--gold)) drop-shadow(0 0 30px rgba(201,168,76,0.2));
+  stroke-dasharray: 20, 40;
+  animation: qiFlow 3s linear infinite;
+}
+@keyframes qiFlow {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -120; }
+}
+
+/* ===== 藏宝图增强 ===== */
+/* 边缘焦痕 */
+.edge-burn { fill: #3c2415; opacity: 0.035; }
+/* 纸张褶皱 */
+.paper-wrinkle { fill: none; stroke: #2c1810; stroke-width: 0.4; opacity: 0.025; stroke-linecap: round; }
+/* 水墨晕染 */
+.ink-wash { opacity: 0.04; }
+/* 海水江崖波纹边饰 */
+.wave-border { fill: none; stroke: var(--gold); stroke-width: 0.6; opacity: 0.08; stroke-linecap: round; }
+/* 祥云卷角 */
+.cloud-corner { fill: none; stroke: var(--gold); stroke-width: 0.6; opacity: 0.08; }
 </style>
 </head>
 <body>
 
+<!-- ===== 开屏动画 ===== -->
+<div id="intro-overlay">
+  <div class="intro-title">西 游 取 经 图</div>
+  <div class="intro-sub">唐三藏西天拜佛求经 · 九九八十一难</div>
+</div>
+
 <!-- 进度条 -->
 <div id="progress-wrap"><div id="progress-fill"></div></div>
+<div id="progress-milestones"></div>
 <div id="progress-num">0 / 81 难</div>
 
 <!-- 横向滚动地图 -->
 <div id="map-viewport">
   <div id="map-content">
     <svg id="map-svg" viewBox="0 0 5000 950"></svg>
+    <!-- 唐僧行进标记点（浮在SVG上方） -->
+    <div id="traveler-dot" style="display:none">
+      <svg width="28" height="28" viewBox="0 0 28 28" class="traveler-container">
+        <circle cx="14" cy="14" r="7" fill="none" stroke="var(--cinnabar)" stroke-width="2" class="traveler-glow"/>
+        <circle cx="14" cy="14" r="5" fill="var(--gold)" opacity="0.8"/>
+        <circle cx="14" cy="14" r="2.5" fill="var(--cinnabar)"/>
+      </svg>
+    </div>
   </div>
 </div>
 
 <!-- 滚动提示 -->
 <div id="hint">↔ 滚动鼠标浏览取经之路</div>
+<div id="kbd-hint">⌨ 按 <kbd>←</kbd><kbd>→</kbd> 切换关卡 · <kbd>Esc</kbd> 关闭面板</div>
 
 <!-- 遮罩 -->
 <div id="overlay" onclick="closePanel()"></div>
@@ -219,6 +685,11 @@ body {
 <div id="panel">
   <div id="panel-inner">
     <button class="close" onclick="closePanel()">✕</button>
+    <div class="panel-header-ornament">━ ◇ 唐 僧 取 经 ◇ ━</div>
+    <div class="panel-nav">
+      <button id="btn-prev" onclick="navPanel(-1)" disabled>← 上一难</button>
+      <button id="btn-next" onclick="navPanel(1)">下一难 →</button>
+    </div>
     <div class="panel-trib" id="p-num"></div>
     <div class="panel-name" id="p-name"></div>
     <div class="panel-meta">
@@ -233,6 +704,11 @@ body {
     </div>
   </div>
 </div>
+
+<!-- 丁达尔光柱 -->
+<div id="god-rays"></div>
+<!-- 漂浮粒子画布 -->
+<canvas id="particles-canvas"></canvas>
 
 <script>
 const DANGER_NAMES = {1:'安全',2:'小险',3:'中等',4:'凶险',5:'九死一生'};
@@ -253,7 +729,9 @@ async function init() {
     TRIB = await r.json();
     if (!Array.isArray(TRIB) || TRIB.length === 0) throw new Error('数据为空');
     buildMap();
+    buildProgressMilestones();
     bindScroll();
+    cleanupIntro();
   } catch (err) {
     console.error('加载失败:', err);
     num.textContent = '❌ 加载失败';
@@ -267,50 +745,503 @@ async function init() {
 }
 
 // ============================================================
+// 绘制取经示意图（背景层）
+// 包含：流沙河 / 通天河 / 弱水，名山（火焰山/灵山/五行山），城镇，罗盘
+// ============================================================
+function drawMapBackground(svg) {
+  const map = el('g', {'data-layer': 'map-bg'});
+
+  // ================================================================
+  //  唐风背景：卷轴边框 + 水渍纹理 + 淡墨晕染远山 + 工笔祥云
+  // ================================================================
+
+  // --- 1. 宣纸纹理 + 茶渍 + 磨损边缘 ---
+  // 宣纸纤维（随机分布，增加古旧质感）
+  function seededRandom(seed) { let s=seed%2147483647; return function(){s=s*16807%2147483647;return(s-1)/2147483646;}; }
+  const rng = seededRandom(42);
+  for (let i = 0; i < 100; i++) {
+    map.appendChild(el('circle', {
+      cx: rng() * MAP_W, cy: rng() * MAP_H,
+      r: rng() * 3 + 0.5,
+      fill: '#d4b896', opacity: 0.08
+    }));
+  }
+  // 茶渍（随机分布，不规则的半透明褐斑）
+  const rng2 = seededRandom(137);
+  for (let i = 0; i < 10; i++) {
+    const rx = rng2() * 60 + 20, ry = rng2() * 35 + 15;
+    map.appendChild(el('ellipse', {
+      cx: rng2() * MAP_W, cy: rng2() * MAP_H,
+      rx: rx, ry: ry,
+      fill: 'var(--tea-brown)', opacity: rng2() * 0.04 + 0.03,
+      class: 'tea-stain'
+    }));
+  }
+  // 磨损边缘（四边不规则短线）
+  const edgeY = [()=>Math.random()*40, ()=>MAP_H-Math.random()*40];
+  for (let side=0; side<2; side++) {
+    for (let i=0; i<20; i++) {
+      const x = Math.random() * MAP_W;
+      map.appendChild(el('line', {x1:x,y1:edgeY[side](),x2:x+Math.random()*30-15,y2:edgeY[side]()+Math.random()*6-3,'class':'worn-edge'}));
+    }
+  }
+  for (let side=0; side<2; side++) {
+    for (let i=0; i<12; i++) {
+      const y = Math.random() * MAP_H;
+      map.appendChild(el('line', {x1:side===0?0:MAP_W,y1:y,x2:side===0?Math.random()*30:MAP_W-Math.random()*30,y2:y+Math.random()*8-4,'class':'worn-edge'}));
+    }
+  }
+
+  // --- 2. 卷轴边框 ---
+  const MAR = 18;
+  // 外框深棕粗线
+  map.appendChild(el('rect', {x:MAR,y:MAR,w:MAP_W-MAR*2,h:MAP_H-MAR*2,'class':'scroll-frame-outer'}));
+  // 内框泥金细线
+  map.appendChild(el('rect', {x:MAR+4,y:MAR+4,w:MAP_W-MAR*2-8,h:MAP_H-MAR*2-8,'class':'scroll-frame-inner'}));
+  // 四角装饰
+  const cornerSize = 24;
+  for (const [sx, sy, flipX, flipY] of [[0,0,1,1],[1,0,-1,1],[0,1,1,-1],[1,1,-1,-1]]) {
+    const cx = sx === 0 ? MAR : MAP_W - MAR;
+    const cy = sy === 0 ? MAR : MAP_H - MAR;
+    map.appendChild(el('path', {
+      d: `M ${cx} ${cy+cornerSize*flipY} L ${cx} ${cy} L ${cx+cornerSize*flipX} ${cy}`,
+      'class': 'scroll-frame-inner'
+    }));
+    map.appendChild(el('path', {
+      d: `M ${cx-4*flipX} ${cy+cornerSize*flipY} L ${cx-4*flipX} ${cy-4*flipY} L ${cx+cornerSize*flipX} ${cy-4*flipY}`,
+      'class': 'scroll-frame-outer', opacity: 0.5
+    }));
+  }
+
+  // --- 3. 古画水渍（深色扩散晕）---
+  for (const s of [[500,250,180,0.02],[1800,650,140,0.025],[3200,400,220,0.018],[4200,700,160,0.02],[1200,800,100,0.03],[3800,200,130,0.022],[2800,550,170,0.02]]) {
+    map.appendChild(el('circle', {cx:s[0],cy:s[1],r:s[2],fill:'#c4a97d',opacity:s[3]}));
+  }
+
+  // --- 3.5 边缘焦痕 + 纸张褶皱 ---
+  for (const [cx,cy,rx,ry] of [[20,20,120,80],[MAP_W-20,20,120,80],[20,MAP_H-20,120,80],[MAP_W-20,MAP_H-20,120,80],[MAP_W/2,MAR,200,50],[MAP_W/2,MAP_H-MAR,200,50],[MAR,MAP_H/2,50,250],[MAP_W-MAR,MAP_H/2,50,250]]) {
+    map.appendChild(el('ellipse', {cx,cy,rx,ry,class:'edge-burn'}));
+  }
+  // 纸张自然褶皱（细长低透明度曲线）
+  for (const pts of [[[200,200,500,210,800,195,1200,220]],[[1500,500,2000,490,2400,510,3000,495]],[[3500,300,3800,310,4200,295,4600,305]],[[1000,700,1400,690,1800,710,2200,695]]]) {
+    let d = `M ${pts[0][0]} ${pts[0][1]}`;
+    for (let j=2; j<pts[0].length; j+=2) d += ` Q ${pts[0][j-1]+40} ${pts[0][j]-5} ${pts[0][j]} ${pts[0][j+1]}`;
+    map.appendChild(el('path', {d,class:'paper-wrinkle'}));
+  }
+
+  // --- 3.6 海水江崖纹装饰边框（顶部 + 底部）---
+  function addWaveRow(y, flip) {
+    for (let x=MAR+4; x<MAP_W-MAR-4; x+=24) {
+      const dir = flip ? -1 : 1;
+      map.appendChild(el('path', {d:`M ${x} ${y} Q ${x+6} ${y+dir*8} ${x+12} ${y} Q ${x+18} ${y-dir*8} ${x+24} ${y}`,class:'wave-border'}));
+    }
+  }
+  addWaveRow(22, 1);  // 顶部
+  addWaveRow(MAP_H-22, -1);  // 底部
+  // 祥云卷角（替换四角简单L形）
+  function addCloudCorner(cx, cy, dirX, dirY) {
+    map.appendChild(el('path', {d:`M ${cx} ${cy+dirY*32} Q ${cx+dirX*15} ${cy+dirY*28} ${cx+dirX*32} ${cy}`,class:'cloud-corner'}));
+    map.appendChild(el('path', {d:`M ${cx+dirX*8} ${cy+dirY*26} Q ${cx+dirX*22} ${cy+dirY*15} ${cx+dirX*26} ${cy+dirY*8}`,class:'cloud-corner'}));
+  }
+  for (const [sx,sy,dx,dy] of [[0,0,1,1],[1,0,-1,1],[0,1,1,-1],[1,1,-1,-1]]) {
+    const cx = sx === 0 ? MAR : MAP_W - MAR;
+    const cy = sy === 0 ? MAR : MAP_H - MAR;
+    addCloudCorner(cx, cy, dx, dy);
+  }
+
+  // --- 4. 祥云（白色 + 红金两版）---
+  function addCloud(cx, cy, sx, sy, opacity) {
+    const g = el('g', {transform: `translate(${cx},${cy}) scale(${sx},${sy})`, opacity: opacity || 0.1, fill: '#fff', class: 'cloud-drift'});
+    g.appendChild(el('ellipse', {cx: 0, cy: 0, rx: 20, ry: 12}));
+    g.appendChild(el('ellipse', {cx: 18, cy: -7, rx: 22, ry: 14}));
+    g.appendChild(el('ellipse', {cx: 38, cy: 0, rx: 18, ry: 11}));
+    g.appendChild(el('ellipse', {cx: 55, cy: -4, rx: 14, ry: 9}));
+    g.appendChild(el('ellipse', {cx: -15, cy: 2, rx: 14, ry: 9}));
+    return g;
+  }
+  // 祥云分布（大幅扩充，动漫感大云）
+  const cloudPositions = [
+    [2500,90,1.5,0.7,0.08],[2600,70,1.2,0.6,0.06],  // 标题上方大云
+    [720,260,1.2,0.7,0.1],[800,240,0.8,0.5,0.07],    // 五行山上空
+    [400,280,1,0.6,0.06],[600,300,0.7,0.5,0.05],     // 长安上空
+    [1800,510,1.3,0.7,0.07],[1900,490,0.8,0.5,0.05], // 流沙河段
+    [3300,730,2,0.9,0.08],[3400,700,1.2,0.6,0.06],   // 通天河大云
+    [3500,700,1,0.6,0.05],[3100,750,0.7,0.5,0.04],
+    [3850,180,1.3,0.7,0.09],[3950,160,0.8,0.5,0.06], // 狮驼岭上空
+    [90,470,1,0.6,0.06],[4900,470,0.9,0.5,0.05],     // 两端
+    [1200,490,0.8,0.5,0.06],[1400,480,0.6,0.4,0.05], // 中段补充
+    [2100,470,0.9,0.5,0.05],[2300,460,0.7,0.4,0.04],
+    [2700,460,0.8,0.5,0.05],[2900,450,0.6,0.4,0.04],
+    [4300,480,0.9,0.5,0.05],[4700,460,0.7,0.4,0.04], // 灵山附近
+  ];
+  for (const c of cloudPositions) map.appendChild(addCloud(...c));
+  // 红金祥云（火焰山、灵山等重点区域）- 加量
+  for (const c of [
+    [2500,170,1.8,0.8,0.06],[2600,155,1,0.6,0.04],[2450,150,0.7,0.5,0.035],  // 火焰山上空
+    [4490,90,2,1,0.1],[4400,70,1,0.6,0.07],[4600,85,1.2,0.6,0.06],             // 灵山上空大云
+    [4550,100,0.8,0.5,0.05],[2500,70,0.7,0.5,0.04],                            // 额外灵山+标题
+  ])
+    map.appendChild(addCloudRG(...c));
+  // 红金祥云（火焰山、灵山等重点区域）
+  function addCloudRG(cx, cy, sx, sy, opacity) {
+    const g = el('g', {transform: `translate(${cx},${cy}) scale(${sx},${sy})`, opacity: opacity || 0.05, class: 'cloud-drift'});
+    g.appendChild(el('ellipse', {cx:0,cy:0,rx:20,ry:12,class:'cloud-rg'}));
+    g.appendChild(el('ellipse', {cx:18,cy:-7,rx:22,ry:14,class:'cloud-rg'}));
+    g.appendChild(el('ellipse', {cx:38,cy:0,rx:18,ry:11,class:'cloud-rg'}));
+    g.appendChild(el('ellipse', {cx:55,cy:-4,rx:14,ry:9,class:'cloud-rg'}));
+    g.appendChild(el('ellipse', {cx:-15,cy:2,rx:14,ry:9,class:'cloud-rg'}));
+    return g;
+  }
+  for (const c of [[2500,170,1.2,0.7,0.06],[2600,155,0.6,0.5,0.04],[4490,90,1.3,0.8,0.1],[4400,70,0.6,0.5,0.07],[4600,85,0.7,0.5,0.06]])
+    map.appendChild(addCloudRG(...c));
+
+  // --- 4. 飘带（朱红丝绦蜿蜒天际）---
+  for (const path of [
+    'M 500 120 Q 800 180 1100 140 Q 1400 100 1700 150',
+    'M 3000 100 Q 3400 160 3800 120 Q 4200 80 4500 140',
+  ]) {
+    map.appendChild(el('path', {d: path, 'class': 'ribbon'}));
+  }
+
+  // --- 5. 河流（青绿山水 + 波浪纹）---
+  // 流沙河（左段，青绿主调）
+  map.appendChild(el('path', {d:'M 1500 600 Q 1650 640 1800 600 Q 1950 560 2050 590',stroke:'var(--stone-blue)','stroke-width':5,fill:'none','stroke-linecap':'round',opacity:0.4}));
+  map.appendChild(el('path', {d:'M 1500 600 Q 1650 640 1800 600 Q 1950 560 2050 590',stroke:'var(--indigo)','stroke-width':2,fill:'none','stroke-linecap':'round',opacity:0.2}));
+  // 流沙河波浪纹
+  for (const [wx,wy] of [[1550,620],[1620,610],[1700,625],[1780,590],[1850,610],[1920,575],[2000,585]]) {
+    map.appendChild(el('path', {d:`M${wx},${wy} Q${wx+5},${wy-4} ${wx+10},${wy}`,class:'wave-line'}));
+  }
+  // 通天河（中段大弯道，双色叠加）
+  map.appendChild(el('path', {d:'M 2700 850 Q 3000 880 3300 820 Q 3600 760 3900 810 Q 4100 840 4250 800',stroke:'var(--stone-blue)','stroke-width':7,fill:'none','stroke-linecap':'round',opacity:0.45}));
+  map.appendChild(el('path', {d:'M 2700 850 Q 3000 880 3300 820 Q 3600 760 3900 810 Q 4100 840 4250 800',stroke:'var(--indigo)','stroke-width':2.5,fill:'none','stroke-linecap':'round',opacity:0.2}));
+  // 通天河波浪纹
+  for (const [wx,wy] of [[2800,860],[2900,870],[3050,870],[3200,840],[3350,830],[3500,790],[3650,780],[3800,800],[3950,820],[4100,835],[4200,815]]) {
+    map.appendChild(el('path', {d:`M${wx},${wy} Q${wx+6},${wy-5} ${wx+12},${wy+1}`,class:'wave-line'}));
+  }
+  // 弱水（末端细流）
+  map.appendChild(el('path', {d:'M 4150 700 Q 4350 720 4550 690 Q 4680 670 4750 690',stroke:'var(--stone-blue)','stroke-width':4,fill:'none','stroke-linecap':'round',opacity:0.35}));
+  map.appendChild(el('path', {d:'M 4150 700 Q 4350 720 4550 690 Q 4680 670 4750 690',stroke:'var(--indigo)','stroke-width':1.5,fill:'none','stroke-linecap':'round',opacity:0.15}));
+  // 河名标签（石青色）
+  map.appendChild(el('text', {x:1800,y:555,'text-anchor':'middle','font-size':11,fill:'var(--stone-blue)',opacity:0.5}, '流沙河'));
+  map.appendChild(el('text', {x:3300,y:770,'text-anchor':'middle','font-size':12,fill:'var(--stone-blue)',opacity:0.55,'font-weight':'bold'}, '通天河'));
+  map.appendChild(el('text', {x:4500,y:660,'text-anchor':'middle','font-size':10,fill:'var(--stone-blue)',opacity:0.45}, '弱水'));
+  // 额外溪流和小湖（增加画面丰富度）
+  // 小河支流
+  map.appendChild(el('path', {d:'M 800 550 Q 900 520 1000 540 Q 1100 560 1200 530',stroke:'var(--stone-blue)','stroke-width':3,fill:'none','stroke-linecap':'round',opacity:0.25}));
+  map.appendChild(el('path', {d:'M 2000 580 Q 2100 560 2200 570 Q 2300 580 2400 560',stroke:'var(--stone-blue)','stroke-width':3,fill:'none','stroke-linecap':'round',opacity:0.25}));
+  map.appendChild(el('path', {d:'M 3500 700 Q 3600 680 3700 690 Q 3800 700 3900 680',stroke:'var(--stone-blue)','stroke-width':2.5,fill:'none','stroke-linecap':'round',opacity:0.2}));
+  // 小湖泊
+  for (const [cx,cy,r,op] of [[1000,530,25,0.15],[2200,570,30,0.12],[3500,500,20,0.15],[4100,490,25,0.12]]) {
+    map.appendChild(el('ellipse', {cx,cy,rx:r,ry:r*0.7,fill:'var(--stone-blue)',opacity:op,class:'wave-line'}));
+    // 湖面波纹
+    map.appendChild(el('ellipse', {cx,cy:cy+5,rx:r*0.6,ry:r*0.4,fill:'none',stroke:'var(--indigo)','stroke-width':0.5,opacity:0.15}));
+  }
+
+  // --- 6. 水墨意象山川（大幅扩充，动漫感晕染）---
+  // 青绿调晕染（远景偏蓝绿）
+  for (const [cx,cy,rx,ry,op] of [
+    [500,430,400,90,0.04],[1000,450,350,85,0.035],[1700,440,300,80,0.035],
+    [2200,460,350,85,0.04],[2800,440,400,90,0.035],[3400,450,350,85,0.035],
+    [3800,460,380,80,0.04],[4200,450,350,85,0.035],
+  ]) {
+    map.appendChild(el('ellipse', {cx,cy,rx,ry,fill:'var(--stone-blue)',opacity:op,class:'ink-wash'}));
+  }
+  // 赭石调晕染（中景偏暖褐）
+  for (const [cx,cy,rx,ry,op] of [
+    [700,460,300,70,0.04],[1300,470,280,65,0.035],[2000,460,320,70,0.035],
+    [2500,450,350,75,0.035],[3100,460,300,70,0.035],[3600,470,320,70,0.04],
+    [4100,460,300,65,0.035],[4500,450,280,70,0.035],
+  ]) {
+    map.appendChild(el('ellipse', {cx,cy,rx,ry,fill:'var(--ochre)',opacity:op,class:'ink-wash'}));
+  }
+  // 墨色极淡晕染（最底层，广域覆盖）
+  for (const [cx,cy,rx,ry] of [
+    [400,450,500,120],[1000,470,500,110],[1600,460,500,110],
+    [2200,460,500,120],[2800,450,500,120],[3400,460,500,110],
+    [4000,460,500,120],[4500,450,400,110],
+  ]) {
+    map.appendChild(el('ellipse', {cx,cy,rx,ry,fill:'var(--ink)',opacity:0.025,class:'ink-wash'}));
+  }
+  // 五行山文字标签保留（山体由上方晕染覆盖）
+  map.appendChild(el('text', {x:720,y:300,'text-anchor':'middle','font-size':10,fill:'var(--ink)',opacity:0.35}, '五行山'));
+
+  // 6d. 火焰山（烈焰升腾 + 三层火焰渐变）【保留】
+  map.appendChild(el('path', {d:'M 2300 440 L 2360 280 L 2400 340 L 2440 240 L 2480 320 L 2520 260 L 2560 340 L 2600 300 L 2640 360 L 2680 440 Z','class':'mtn-fire'}));
+  for (const [fx,fy] of [[2380,300],[2450,280],[2520,290],[2590,310],[2430,320],[2550,330]]) {
+    map.appendChild(el('ellipse', {cx:fx,cy:fy,rx:8,ry:14+Math.random()*6,class:'flame-outer',transform:`rotate(${Math.random()*20-10} ${fx} ${fy})`}));
+  }
+  for (const [fx,fy] of [[2390,290],[2460,270],[2530,280],[2570,295]]) {
+    map.appendChild(el('ellipse', {cx:fx,cy:fy,rx:5,ry:10+Math.random()*4,class:'flame-mid',transform:`rotate(${Math.random()*15-7} ${fx} ${fy})`}));
+  }
+  for (const [fx,fy] of [[2400,280],[2470,265],[2540,275]]) {
+    map.appendChild(el('ellipse', {cx:fx,cy:fy,rx:3,ry:7+Math.random()*3,class:'flame-core',transform:`rotate(${Math.random()*10-5} ${fx} ${fy})`}));
+  }
+  // 狮驼岭文字标签保留
+  map.appendChild(el('text', {x:3850,y:300,'text-anchor':'middle','font-size':10,fill:'var(--ink)',opacity:0.35}, '狮驼岭'));
+
+  // 6f. 灵山（金色佛光 + 多层光环）【保留】
+  map.appendChild(el('path', {d:'M 4320 420 L 4380 220 L 4420 280 L 4470 170 L 4520 260 L 4570 200 L 4620 270 L 4660 230 L 4710 300 L 4760 420 Z','class':'mtn-sacred'}));
+  map.appendChild(el('circle', {cx:4490,cy:155,r:60,class:'buddha-glow'}));
+  map.appendChild(el('circle', {cx:4490,cy:155,r:40,class:'buddha-glow'}));
+  map.appendChild(el('circle', {cx:4490,cy:155,r:26,class:'buddha-ray'}));
+  map.appendChild(el('circle', {cx:4490,cy:155,r:18,class:'buddha-ray'}));
+  map.appendChild(el('circle', {cx:4490,cy:155,r:12,fill:'none',stroke:'var(--gold)','stroke-width':0.8,opacity:0.25}));
+  for (let a=0; a<12; a++) {
+    const ra = a * 30 * Math.PI / 180;
+    map.appendChild(el('line', {
+      x1:4490+Math.sin(ra)*28, y1:155-Math.cos(ra)*28,
+      x2:4490+Math.sin(ra)*65, y2:155-Math.cos(ra)*65,
+      'class':'buddha-ray', opacity:0.08
+    }));
+  }
+
+  // --- 7. 松柏剪影 ---
+  function addPine(cx, cy, scale) {
+    const g = el('g', {transform:`translate(${cx},${cy}) scale(${scale})`, opacity:0.13});
+    g.appendChild(el('line', {x1:0,y1:0,x2:0,y2:14,stroke:'var(--ink)','stroke-width':0.8,fill:'none',opacity:0.15}));
+    // 三层针叶：倒三角形
+    g.appendChild(el('polygon', {points:'0,-16 -6,-6 6,-6','class':'pine-foliage'}));
+    g.appendChild(el('polygon', {points:'0,-12 -8,-3 8,-3','class':'pine-foliage'}));
+    g.appendChild(el('polygon', {points:'0,-8 -7,0 7,0','class':'pine-foliage'}));
+    return g;
+  }
+  // 松树位置（大幅扩充，形成林区）
+  for (const p of [
+    [200,440,0.8],[350,430,1],[500,445,1.2],[650,450,0.7],        // 长安附近林区
+    [900,460,0.8],[1050,455,0.9],[1200,465,0.7],                    // 五行山-高老庄段
+    [1500,470,0.8],[1650,465,0.9],[1800,460,0.7],                   // 高老庄-流沙河段
+    [2000,460,0.8],[2150,455,0.9],[2300,450,0.7],                   // 流沙河-火焰山段
+    [2700,450,0.9],[2850,445,1],[3000,455,0.8],                     // 火焰山-通天河段
+    [3300,465,0.7],[3450,470,0.8],[3600,460,0.9],                   // 通天河-女儿国段
+    [3800,450,1],[3950,440,1.1],[4100,455,0.8],                     // 狮驼岭附近
+    [4300,450,0.9],[4450,445,1],[4600,430,1.1],[4750,440,0.8],      // 灵山附近
+  ]) {
+    map.appendChild(addPine(p[0],p[1],p[2]));
+  }
+  // 额外莲花（增加水面点缀）
+  map.appendChild(addLotus(2800,530,0.7));  // 通天河旁
+  map.appendChild(addLotus(3400,800,0.9));  // 通天河下游
+  map.appendChild(addLotus(900,520,0.6));   // 途中
+  map.appendChild(addLotus(4000,500,0.7));  // 朱紫国附近
+
+  // --- 8. 莲花装饰 ---
+  function addLotus(cx, cy, scale) {
+    const g = el('g', {transform:`translate(${cx},${cy}) scale(${scale})`,'class':'lotus-petal'});
+    for (let a=0; a<6; a++) {
+      g.appendChild(el('ellipse', {cx:0,cy:0,rx:3,ry:8,transform:`rotate(${a*60})`,opacity:0.12}));
+    }
+    g.appendChild(el('circle', {cx:0,cy:0,r:2.5,fill:'var(--gold)',opacity:0.15}));
+    return g;
+  }
+  map.appendChild(addLotus(4490,190,1));
+  map.appendChild(addLotus(2500,360,0.8));
+  map.appendChild(addLotus(1800,560,0.7));
+
+  // === 9. 地点专属建筑图标（每个地点不同建筑）===
+  function placeIcon(type, g, opts) {
+    const sc = opts.scale || 1;
+    const ic = el('g', {transform: `scale(${sc})`, opacity: opts.opacity || 0.4});
+    // 类型分发
+    const body = () => el('rect', {x:-12,y:-10,width:24,height:20,class:'tower-body',rx:1});
+    const roof = (w,h,dy) => el('path', {d:`M ${-w/2} ${dy} L 0 ${dy-h} L ${w/2} ${dy} Z`,class:'tower-roof'});
+    switch(type) {
+      case 'palace': // 宫殿 — 长安、车迟国、朱紫国
+        ic.appendChild(body());
+        ic.appendChild(roof(28,8,-10));
+        ic.appendChild(el('rect', {x:-8,y:-18,width:16,height:8,class:'tower-body'}));
+        ic.appendChild(roof(20,6,-18));
+        ic.appendChild(el('rect', {x:-3,y:-24,width:6,height:6,class:'tower-body'}));
+        ic.appendChild(el('circle', {cx:0,cy:-20,r:2,class:'tower-window'}));
+        ic.appendChild(el('rect', {x:-4,y:-4,width:8,height:4,class:'tower-window'}));
+        // 旗帜
+        ic.appendChild(el('line', {x1:8,y1:-24,x2:8,y2:-30,stroke:'var(--ink)','stroke-width':0.8,opacity:0.3}));
+        ic.appendChild(el('polygon', {points:'8,-30 16,-28 8,-26',fill:'var(--cinnabar)',opacity:0.4}));
+        break;
+      case 'temple': // 寺庙/塔 — 观音院、比丘国、五庄观
+        ic.appendChild(body());
+        ic.appendChild(roof(26,7,-10));
+        ic.appendChild(el('rect', {x:-7,y:-16,width:14,height:6,class:'tower-body'}));
+        ic.appendChild(roof(18,6,-16));
+        ic.appendChild(el('rect', {x:-4,y:-21,width:8,height:5,class:'tower-body'}));
+        ic.appendChild(roof(12,5,-21));
+        ic.appendChild(el('rect', {x:-2,y:-25,width:4,height:4,class:'tower-body'}));
+        ic.appendChild(el('circle', {cx:0,cy:-11,r:2,class:'tower-window'}));
+        ic.appendChild(el('circle', {cx:0,cy:-5,r:2,class:'tower-window'}));
+        break;
+      case 'mountain': // 山峰 — 两界山、黄风岭、金睛山、狮驼岭
+        ic.appendChild(el('path', {d:'M -20 6 L -8 -18 L 0 -4 L 8 -20 L 20 6 Z',class:'tower-body'}));
+        ic.appendChild(el('path', {d:'M -16 6 L -6 -14 L 0 -2 L 6 -16 L 16 6 Z',class:'tower-roof',opacity:0.5}));
+        ic.appendChild(el('circle', {cx:-6,cy:-12,r:2,fill:'var(--ink)',opacity:0.2})); // 树
+        ic.appendChild(el('circle', {cx:7,cy:-14,r:2.5,fill:'var(--ink)',opacity:0.2}));
+        break;
+      case 'barren': // 荒山 — 白骨岭
+        ic.appendChild(el('path', {d:'M -18 6 L -4 -16 L 4 -12 L 14 -18 L 22 6 Z',class:'tower-body'}));
+        ic.appendChild(el('path', {d:'M -14 6 L -2 -12 L 2 -8 L 10 -14 L 16 6 Z',class:'tower-roof',opacity:0.4}));
+        ic.appendChild(el('line', {x1:-2,y1:-10,x2:2,y2:-14,stroke:'var(--cinnabar)','stroke-width':0.8,opacity:0.25}));
+        ic.appendChild(el('line', {x1:6,y1:-14,x2:10,y2:-18,stroke:'var(--cinnabar)','stroke-width':0.8,opacity:0.25}));
+        ic.appendChild(el('circle', {cx:0,cy:-8,r:1.5,fill:'var(--cinnabar)',opacity:0.2}));
+        break;
+      case 'farm': // 农庄 — 高老庄
+        ic.appendChild(el('rect', {x:-10,y:-6,width:20,height:16,class:'tower-body'}));
+        ic.appendChild(roof(24,8,-6));
+        ic.appendChild(el('rect', {x:-3,y:-2,width:6,height:12,fill:'var(--cinnabar)',opacity:0.15}));
+        ic.appendChild(el('rect', {x:-8,y:2,width:4,height:4,class:'tower-window'}));
+        ic.appendChild(el('rect', {x:4,y:2,width:4,height:4,class:'tower-window'}));
+        // 栅栏
+        for (let f=-12; f<=12; f+=4) ic.appendChild(el('line', {x1:f,y1:6,x2:f,y2:12,stroke:'var(--ink)','stroke-width':0.6,opacity:0.2}));
+        break;
+      case 'river': // 河流 — 流沙河、通天河
+        ic.appendChild(el('path', {d:'M -16 0 Q -8 -12 0 0 Q 8 -12 16 0 Q 8 10 0 2 Q -8 10 -16 0 Z',fill:'var(--stone-blue)',opacity:0.3}));
+        ic.appendChild(el('path', {d:'M -12 -2 Q -4 -8 4 -2 Q 12 -8 16 -2',fill:'none',stroke:'var(--indigo)','stroke-width':1,opacity:0.2}));
+        break;
+      case 'flame': // 火焰山 — 专属
+        ic.appendChild(el('path', {d:'M -16 8 L -4 -14 L 2 -4 L 10 -16 L 20 8 Z',class:'mtn-fire'}));
+        for (const [fx,fy] of [[-4,-10],[-1,-6],[4,-12],[8,-8]]) {
+          ic.appendChild(el('ellipse', {cx:fx,cy:fy,rx:3,ry:6,class:'flame-core',transform:`rotate(${Math.random()*20-10} ${fx} ${fy})`}));
+        }
+        break;
+      case 'woman': // 女儿国 — 宫殿带女性装饰
+        ic.appendChild(body());
+        ic.appendChild(roof(28,8,-10));
+        ic.appendChild(el('rect', {x:-8,y:-18,width:16,height:8,class:'tower-body'}));
+        ic.appendChild(roof(20,6,-18));
+        ic.appendChild(el('circle', {cx:0,cy:-22,r:4,fill:'var(--cinnabar)',opacity:0.15}));
+        ic.appendChild(el('circle', {cx:0,cy:-22,r:2,fill:'var(--gold)',opacity:0.2}));
+        ic.appendChild(el('rect', {x:-4,y:-4,width:8,height:4,class:'tower-window'}));
+        break;
+      case 'altar': // 祭坛 — 祭赛国
+        ic.appendChild(el('rect', {x:-14,y:0,width:28,height:10,class:'tower-body'}));
+        for (let s=-10; s<=10; s+=5) {
+          ic.appendChild(el('rect', {x:s,y:-4,width:3,height:4,class:'tower-roof'}));
+        }
+        ic.appendChild(el('rect', {x:-6,y:-14,width:12,height:10,class:'tower-body'}));
+        ic.appendChild(el('polygon', {points:'-8,-14 0,-20 8,-14',class:'tower-roof'}));
+        ic.appendChild(el('circle', {cx:0,cy:-8,r:2.5,fill:'var(--gold)',opacity:0.2}));
+        break;
+      default: // 通用城楼
+        ic.appendChild(body());
+        ic.appendChild(roof(24,6,-10));
+        ic.appendChild(el('rect', {x:-4,y:-4,width:8,height:4,class:'tower-window'}));
+    }
+    g.appendChild(ic);
+  }
+  // 各地点的建筑类型映射
+  const placeTypes = {
+    '观音院':'temple','黄风岭':'mountain','五庄观':'temple',
+    '白骨岭':'barren','车迟国':'palace','金睛山':'mountain',
+    '女儿国':'woman','祭赛国':'altar','朱紫国':'palace','比丘国':'temple',
+  };
+  for (const t of [
+    {x:1000,y:470,n:'观音院'},{x:1500,y:480,n:'黄风岭'},{x:2000,y:470,n:'五庄观'},
+    {x:2200,y:470,n:'白骨岭'},{x:2700,y:460,n:'车迟国'},{x:3000,y:480,n:'金睛山'},
+    {x:3400,y:460,n:'女儿国'},{x:3700,y:470,n:'祭赛国'},{x:4000,y:460,n:'朱紫国'},{x:4300,y:470,n:'比丘国'},
+  ]) {
+    const g = el('g', {transform:`translate(${t.x},${t.y})`, opacity:0.4});
+    placeIcon(placeTypes[t.n]||'default', g, {scale:1.2, opacity:0.45});
+    map.appendChild(g);
+    // 地名标签
+    map.appendChild(el('rect', {x:t.x-20,y:t.y+14,w:40,h:16,rx:2,fill:'var(--parchment)',opacity:0.55}));
+    map.appendChild(el('text', {x:t.x,y:t.y+25,'text-anchor':'middle','font-size':11,fill:'var(--ink)','font-weight':'bold','font-family':"'KaiTi','STKaiti',serif"}, t.n));
+  }
+  // 8大地标加专属建筑
+  const landmarkTypes = {
+    '长安':'palace','两界山':'mountain','高老庄':'farm','流沙河':'river',
+    '火焰山':'flame','通天河':'river','狮驼岭':'mountain','天竺':'temple',
+  };
+  for (const l of [
+    {x:250,y:340,n:'长安'},{x:700,y:390,n:'两界山'},{x:1250,y:450,n:'高老庄'},{x:1800,y:400,n:'流沙河'},
+    {x:2500,y:300,n:'火焰山'},{x:3200,y:380,n:'通天河'},{x:3900,y:290,n:'狮驼岭'},{x:4550,y:350,n:'天竺'},
+  ]) {
+    const g = el('g', {transform:`translate(${l.x-30},${l.y-10})`, opacity:0.6});
+    placeIcon(landmarkTypes[l.n]||'default', g, {scale:1.6, opacity:0.5});
+    map.appendChild(g);
+  }
+  // === 10. 罗盘（右下角）===
+  const compass = el('g', {transform: 'translate(4830, 870)', opacity: 0.5});
+  compass.appendChild(el('circle', {r: 28, fill: 'none', stroke: 'rgba(240,230,208,0.5)', 'stroke-width': 1.2}));
+  compass.appendChild(el('circle', {r: 22, fill: 'none', stroke: 'rgba(240,230,208,0.3)', 'stroke-width': 0.5, 'stroke-dasharray': '2 2'}));
+  // 指针
+  compass.appendChild(el('path', {d: 'M0 -22 L4 0 L0 22 L-4 0 Z', fill: 'rgba(240,230,208,0.6)'}));
+  compass.appendChild(el('path', {d: 'M-22 0 L0 -3 L22 0 L0 3 Z', fill: 'rgba(240,230,208,0.3)'}));
+  // 四方
+  compass.appendChild(el('text', {y: -32, 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 'bold', fill: 'rgba(240,230,208,0.7)'}, '北'));
+  compass.appendChild(el('text', {y: 42, 'text-anchor': 'middle', 'font-size': 9, fill: 'rgba(240,230,208,0.5)'}, '南'));
+  compass.appendChild(el('text', {x: 36, y: 3, 'font-size': 9, fill: 'rgba(240,230,208,0.5)'}, '东'));
+  compass.appendChild(el('text', {x: -36, y: 3, 'text-anchor': 'end', 'font-size': 9, fill: 'rgba(240,230,208,0.5)'}, '西'));
+  map.appendChild(compass);
+
+  // === 11. 方向标识 ===
+  map.appendChild(el('text', {x: 90, y: 510, 'text-anchor': 'middle', 'font-size': 13, fill: 'rgba(240,230,208,0.45)', 'font-weight': 'bold'}, '大  唐'));
+  map.appendChild(el('text', {x: 90, y: 530, 'text-anchor': 'middle', 'font-size': 10, fill: 'rgba(240,230,208,0.35)'}, '← 出发'));
+  map.appendChild(el('text', {x: 4810, y: 510, 'text-anchor': 'middle', 'font-size': 13, fill: 'rgba(240,230,208,0.45)', 'font-weight': 'bold'}, '西 天'));
+  map.appendChild(el('text', {x: 4810, y: 530, 'text-anchor': 'middle', 'font-size': 10, fill: 'rgba(240,230,208,0.35)'}, '到达 →'));
+
+  // === 12. 比例尺（古风：里）===
+  const scale = el('g', {transform: 'translate(120, 880)', opacity: 0.5});
+  scale.appendChild(el('line', {x1: 0, y1: 0, x2: 120, y2: 0, stroke: 'rgba(240,230,208,0.5)', 'stroke-width': 1.5}));
+  for (let i = 0; i <= 4; i++) {
+    scale.appendChild(el('line', {x1: i*30, y1: -4, x2: i*30, y2: 4, stroke: 'rgba(240,230,208,0.5)', 'stroke-width': 1}));
+  }
+  scale.appendChild(el('text', {x: 0, y: 18, 'font-size': 9, fill: 'rgba(240,230,208,0.5)'}, '0'));
+  scale.appendChild(el('text', {x: 120, y: 18, 'text-anchor': 'end', 'font-size': 9, fill: 'rgba(240,230,208,0.5)'}, '万里'));
+  map.appendChild(scale);
+
+  return map;
+}
+
+// ============================================================
 function buildMap() {
   const svg = document.getElementById('map-svg');
   const NS = 'http://www.w3.org/2000/svg';
 
-  // --- 背景 ---
-  svg.appendChild(el('rect', {x:0,y:0,w:MAP_W,h:MAP_H,fill:'#f7f0db'}));
+  // --- 底色（透明，让天空渐变透出）---
+  svg.appendChild(el('rect', {x:0,y:0,w:MAP_W,h:MAP_H,fill:'rgba(10,5,25,0.15)'}));
 
-  // 装饰性山水轮廓
-  const mountains = el('g', {opacity:0.06,fill:'#3c2415'});
-  for (let i = 0; i < 20; i++) {
-    const mx = 100 + i * 250 + Math.random() * 100;
-    const mh = 60 + Math.random() * 140;
-    mountains.appendChild(el('path', {d:`M${mx},${420+Math.random()*200} l30,-${mh} l30,${mh*0.4} l40,-${mh*0.8} l30,${mh*0.3} l30,-${mh*0.5} l20,${mh*0.3} l30,-${mh*0.6} l25,${mh*0.4}z`}));
-  }
-  svg.appendChild(mountains);
+  // --- SVG 滤镜定义（水墨晕染、模糊等）---
+  const svgDefs = el('defs', {});
+  const inkFilter = el('filter', {id:'inkBlur', x:'-20%', y:'-20%', width:'140%', height:'140%'});
+  inkFilter.appendChild(el('feGaussianBlur', {in:'SourceGraphic', stdDeviation:'6'}));
+  svgDefs.appendChild(inkFilter);
+  svg.appendChild(svgDefs);
 
-  // 装饰云纹
-  const clouds = el('g', {opacity:0.05,fill:'#b8943c'});
-  for (let i = 0; i < 12; i++) {
-    const cx = 150 + i * 400, cy = 100 + Math.sin(i*1.7)*150;
-    clouds.appendChild(el('circle', {cx,cy,r:35}));
-    clouds.appendChild(el('circle', {cx:cx+35,cy:cy-10,r:28}));
-    clouds.appendChild(el('circle', {cx:cx-20,cy:cy-15,r:22}));
-  }
-  svg.appendChild(clouds);
+  // --- 取经地图背景（河流/名山/城镇/罗盘/比例尺）---
+  svg.appendChild(drawMapBackground(svg));
 
+  // --- 标题装饰线 ---
+  svg.appendChild(el('line', {x1:MAP_W/2-180,y1:33,x2:MAP_W/2+180,y2:33,stroke:'#e8b830','stroke-width':0.8,opacity:0.4}));
+  svg.appendChild(el('line', {x1:MAP_W/2-180,y1:88,x2:MAP_W/2+180,y2:88,stroke:'#e8b830','stroke-width':0.8,opacity:0.4}));
+  // 小菱形装饰
+  [-180, 180].forEach(offset => {
+    svg.appendChild(el('polygon', {
+      points: `${MAP_W/2+offset},30 ${MAP_W/2+offset+4},33 ${MAP_W/2+offset},36 ${MAP_W/2+offset-4},33`,
+      fill:'#e8b830', opacity:0.5
+    }));
+  });
   // --- 标题 ---
-  svg.appendChild(el('text', {x:MAP_W/2,y:55,'text-anchor':'middle',fill:'#6b2f1a','font-size':30,'font-weight':'bold'}, '西 游 取 经 图'));
-  svg.appendChild(el('text', {x:MAP_W/2,y:80,'text-anchor':'middle',fill:'#8b6914','font-size':13}, '唐三藏西天拜佛求经 · 九九八十一难'));
+  svg.appendChild(el('text', {x:MAP_W/2,y:55,'text-anchor':'middle',fill:'#f0e6d0','font-size':30,'font-weight':'bold'}, '西 游 取 经 图'));
+  svg.appendChild(el('text', {x:MAP_W/2,y:80,'text-anchor':'middle',fill:'#e8b830','font-size':13}, '唐三藏西天拜佛求经 · 九九八十一难'));
 
-  // --- 地标 ---
+  // --- 地标（朱砂印章样式，放大版）---
   const landmarks = [
-    {x:250, y:340, t:'长安', sub:'起点 · 贞观十三年'},
-    {x:700, y:390, t:'两界山', sub:'收孙悟空'},
-    {x:1250, y:450, t:'高老庄', sub:'收猪八戒'},
-    {x:1800, y:400, t:'流沙河', sub:'收沙悟净'},
-    {x:2500, y:300, t:'火焰山', sub:'三调芭蕉扇'},
-    {x:3200, y:380, t:'通天河', sub:'遇老鼋'},
-    {x:3900, y:290, t:'狮驼岭', sub:'三魔王'},
-    {x:4550, y:350, t:'天竺灵山', sub:'终点 · 取真经'},
+    {x:250, y:340, t:'长安', sub:'起点', sealW:50, sealH:32},
+    {x:700, y:390, t:'两界山', sub:'收悟空', sealW:46, sealH:28},
+    {x:1250, y:450, t:'高老庄', sub:'收八戒', sealW:46, sealH:28},
+    {x:1800, y:400, t:'流沙河', sub:'收沙僧', sealW:46, sealH:28},
+    {x:2500, y:300, t:'火焰山', sub:'芭蕉扇', sealW:46, sealH:28},
+    {x:3200, y:380, t:'通天河', sub:'遇老鼋', sealW:46, sealH:28},
+    {x:3900, y:290, t:'狮驼岭', sub:'三魔王', sealW:46, sealH:28},
+    {x:4550, y:350, t:'天竺', sub:'取真经', sealW:50, sealH:32},
   ];
   landmarks.forEach(l => {
-    svg.appendChild(el('text', {x:l.x,y:l.y,'text-anchor':'middle',fill:'#8b6914','font-size':13,'font-weight':'bold'}, l.t));
-    svg.appendChild(el('text', {x:l.x,y:l.y+18,'text-anchor':'middle',fill:'#aaa','font-size':10}, l.sub));
+    // 加深半透明白底纹，确保文字可读
+    svg.appendChild(el('rect', {x:l.x-l.sealW/2-4, y:l.y-16, w:l.sealW+8, h:l.sealH+12, fill:'var(--parchment)', opacity:0.6, rx:3, stroke:'var(--gold)', 'stroke-width':0.5}));
+    svg.appendChild(el('rect', {x:l.x-l.sealW/2-2, y:l.y-14, w:l.sealW+4, h:l.sealH+8, fill:'rgba(60,36,21,0.25)', rx:2}));
+    // 朱砂印边框（加宽）
+    svg.appendChild(el('rect', {x:l.x-l.sealW/2, y:l.y-12, w:l.sealW, h:l.sealH, class:'seal-landmark', rx:2}));
+    svg.appendChild(el('rect', {x:l.x-l.sealW/2+2, y:l.y-10, w:l.sealW-4, h:l.sealH-4, fill:'none', stroke:'#f8efdc', 'stroke-width':0.8, opacity:0.5, rx:1}));
+    // 印章文字（放大）
+    svg.appendChild(el('text', {x:l.x, y:l.y-3, 'font-size': 13, 'font-weight':'bold', class:'seal-landmark-text'}, l.t));
+    svg.appendChild(el('text', {x:l.x, y:l.y+9, 'font-size': 8, class:'seal-landmark-text'}, l.sub));
   });
 
   // --- 计算节点坐标 ---
@@ -322,6 +1253,30 @@ function buildMap() {
     const y = 340 + Math.sin(p * Math.PI * 5) * 130 + Math.cos(p * Math.PI * 2.7) * 70 + Math.sin(p * Math.PI * 1.5) * 80;
     return {x, y, id: t.id, name: t.name, danger: t.dangerLevel};
   });
+
+  // --- 取经人剪影（分布于关键地点附近）---
+  function makeChar(paths, cx, cy, scale) {
+    const g = el('g', {transform:`translate(${cx},${cy}) scale(${scale})`, class:'char-fig'});
+    for (const p of paths) {
+      g.appendChild(el('path', {d:p, fill:'var(--ink)', stroke:'none', opacity:0.7}));
+    }
+    return g;
+  }
+  // 唐僧：圆头 + 袈裟 + 锡杖 | 悟空：尖耳 + 猴身 + 金箍棒 | 八戒：大肚 + 钉耙
+  // 沙僧：高个 + 月牙铲 | 白龙马：马形
+  const chars = [
+    {paths:['M-4,-12 A1,1 0 0,1 4,-12 A1,1 0 0,1 -4,-12','M-5,-8 L5,-8 L4,8 L-4,8 Z'], label:'唐僧', cx:250, cy:400, s:0.9},
+    {paths:['M-3,-13 A1,1.2 0 0,1 3,-13 A1,1.2 0 0,1 -3,-13','M-4,-9 L4,-9 L3,6 L-3,6 Z','M-6,-20 L-3,-13 M6,-20 L3,-13'], label:'悟空', cx:700, cy:445, s:0.85},
+    {paths:['M-5,-11 A1,1 0 0,1 5,-11 A1,1 0 0,1 -5,-11','M-6,-8 L6,-8 L5,5 L-5,5 Z'], label:'八戒', cx:1250, cy:500, s:0.9},
+    {paths:['M-3,-14 A1,1 0 0,1 3,-14 A1,1 0 0,1 -3,-14','M-4,-10 L4,-10 L3,10 L-3,10 Z'], label:'沙僧', cx:1800, cy:455, s:0.95},
+    {paths:['M-5,-6 C-5,-12 -2,-14 0,-14 C2,-14 5,-12 5,-6 L5,0 L3,2 L2,-2 L-2,-2 L-3,2 L-5,0 Z'], label:'白龙马', cx:950, cy:470, s:0.7},
+  ];
+  // 给每个剪影加姓名标签
+  for (const ch of chars) {
+    const g = makeChar(ch.paths, ch.cx, ch.cy, ch.s);
+    g.appendChild(el('text', {x:0, y:16, 'text-anchor':'middle', 'font-size':7, fill:'var(--ink)', opacity:0.3}, ch.label));
+    svg.appendChild(g);
+  }
 
   // --- 构建路径 ---
   let d = `M ${nodePositions[0].x} ${nodePositions[0].y}`;
@@ -335,6 +1290,26 @@ function buildMap() {
   svg.appendChild(el('path', {d,class:'route-bg'}));
   const routeFg = el('path', {d,class:'route-fg',id:'route-fg'});
   svg.appendChild(routeFg);
+  // 灵力流动光效路径（叠加动画层）
+  const routeGlow = el('path', {d,class:'route-glow',id:'route-glow'});
+  svg.appendChild(routeGlow);
+
+  // --- 首尾印章 ---
+  if (nodePositions.length > 0) {
+    const firstP = nodePositions[0], lastP = nodePositions[nodePositions.length-1];
+    // 长安"起点"印章
+    const sealStart = el('g', {transform: `translate(${firstP.x-50},${firstP.y+28})`});
+    sealStart.appendChild(el('rect', {x:-14,y:-10,width:28,height:20,class:'seal-rect',rx:2}));
+    sealStart.appendChild(el('text', {x:0,y:-2,class:'seal-text','font-size':8,fill:'#f8efdc'}, '长安'));
+    sealStart.appendChild(el('text', {x:0,y:7,class:'seal-text','font-size':6,fill:'#f8efdc'}, '起点'));
+    svg.appendChild(sealStart);
+    // 天竺"终点"印章
+    const sealEnd = el('g', {transform: `translate(${lastP.x+50},${lastP.y+28})`});
+    sealEnd.appendChild(el('rect', {x:-14,y:-10,width:28,height:20,class:'seal-rect',rx:2}));
+    sealEnd.appendChild(el('text', {x:0,y:-2,class:'seal-text','font-size':8,fill:'#f8efdc'}, '天竺'));
+    sealEnd.appendChild(el('text', {x:0,y:7,class:'seal-text','font-size':6,fill:'#f8efdc'}, '终点'));
+    svg.appendChild(sealEnd);
+  }
 
   // 计算总长度
   const tmp = document.createElementNS(NS,'path');
@@ -345,6 +1320,26 @@ function buildMap() {
   routeFg.style.strokeDasharray = totalPathLen;
   routeFg.style.strokeDashoffset = totalPathLen;
 
+  // --- 路径标记点（菱形小点沿路线排列）---
+  nodePositions.forEach((pt, i) => {
+    svg.appendChild(el('polygon', {
+      points: `${pt.x},${pt.y-4} ${pt.x+3},${pt.y} ${pt.x},${pt.y+4} ${pt.x-3},${pt.y}`,
+      class: 'route-marker',
+      id: `rm-${i}`
+    }));
+  });
+
+  // --- 锡杖印（沿路线每5个节点放一个，呈小莲花/杖印形）---
+  for (let i = 4; i < nodePositions.length - 3; i += 5) {
+    const pt = nodePositions[i];
+    const g = el('g', {transform: `translate(${pt.x},${pt.y-8})`, class: 'trail-mark'});
+    // 小圆杖头
+    g.appendChild(el('circle', {cx:0, cy:0, r:2.5}));
+    g.appendChild(el('circle', {cx:0, cy:0, r:1, fill: 'none', stroke: 'var(--cinnabar)', 'stroke-width': 0.5}));
+    g.appendChild(el('line', {x1:0, y1:2.5, x2:0, y2:9, stroke: 'var(--cinnabar)', 'stroke-width': 0.8, opacity: 0.2}));
+    svg.appendChild(g);
+  }
+
   // --- 渲染节点 ---
   const nodesLayer = el('g', {});
   nodePositions.forEach((pt, i) => {
@@ -352,13 +1347,16 @@ function buildMap() {
     const g = el('g', {class:'click-node',transform:`translate(${pt.x},${pt.y})`});
     g.addEventListener('click', (e) => { e.stopPropagation(); openPanel(i); });
 
-    // 高危光环
+    // 高危光环（脉冲动画）
     if (t.dangerLevel >= 4) {
-      g.appendChild(el('circle', {r:17,fill:'none',stroke:DANGER_CLRS[t.dangerLevel],'stroke-width':1.5,opacity:0.35}));
+      g.appendChild(el('circle', {r:17,fill:'none',stroke:DANGER_CLRS[t.dangerLevel],'stroke-width':1.5,opacity:0.35,class:'danger-pulse-ring'}));
     }
 
     // 节点圆
     g.appendChild(el('circle', {r:9,class:'node-ring',id:`node-${i}`,stroke:DANGER_CLRS[t.dangerLevel]}));
+
+    // 节点内点
+    g.appendChild(el('circle', {r:3,class:'node-dot',id:`node-dot-${i}`,fill:DANGER_CLRS[t.dangerLevel]}));
 
     // 编号(前10个, 以及每5的倍数)
     if (i < 10 || i % 5 === 0) {
@@ -384,9 +1382,69 @@ function el(tag, attrs, text) {
   return e;
 }
 
-// ============================================================
-// 横向滚动驱动进度
-// ============================================================
+// 节点点击涟漪
+function triggerRipple(idx) {
+  const node = document.getElementById(`node-${idx}`);
+  if (!node) return;
+  const parent = node.parentNode;
+  const ripple = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  ripple.setAttribute('cx', 0);
+  ripple.setAttribute('cy', 0);
+  ripple.setAttribute('r', 9);
+  ripple.setAttribute('fill', 'none');
+  ripple.setAttribute('stroke', 'var(--gold)');
+  ripple.setAttribute('stroke-width', 3);
+  ripple.setAttribute('opacity', 0.7);
+  ripple.setAttribute('class', 'node-ripple');
+  parent.appendChild(ripple);
+  ripple.addEventListener('animationend', () => ripple.remove());
+}
+
+// 更新唐僧行进标记点位置
+function updateTraveler() {
+  const vp = document.getElementById('map-viewport');
+  const mc = document.getElementById('map-content');
+  const td = document.getElementById('traveler-dot');
+  const maxScroll = vp.scrollWidth - vp.clientWidth;
+  const pct = maxScroll > 0 ? Math.min(vp.scrollLeft / maxScroll, 1) : 0;
+
+  if (nodePositions.length > 0 && pct > 0) {
+    td.style.display = 'block';
+    // 在路径上插值找到当前进度对应的位置
+    const idx = Math.min(Math.floor(pct * nodePositions.length), nodePositions.length - 1);
+    const pt = nodePositions[idx];
+    td.style.left = pt.x + 'px';
+    td.style.top = pt.y + 'px';
+    td.style.opacity = '0.85';
+  } else {
+    td.style.opacity = '0';
+  }
+}
+
+// 生成进度里程碑
+function buildProgressMilestones() {
+  const container = document.getElementById('progress-milestones');
+  const milestones = [0, 10, 20, 30, 40, 50, 60, 70, 80]; // 每10难一个标记
+  const mlabels = ['长安', '五行山', '高老庄', '流沙河', '火焰山', '通天河', '女儿国', '狮驼岭', '天竺'];
+  milestones.forEach((m, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot milestone';
+    dot.id = `pm-${m}`;
+    dot.style.left = `${(m / 80) * 100}%`;
+    dot.title = `第${m + 1}难 · ${mlabels[i] || ''}`;
+    container.appendChild(dot);
+  });
+}
+
+// 清理开屏动画
+function cleanupIntro() {
+  const overlay = document.getElementById('intro-overlay');
+  if (overlay) {
+    setTimeout(() => { overlay.style.display = 'none'; }, 2800);
+  }
+}
+
+// 在滚动更新中调用
 function bindScroll() {
   const vp = document.getElementById('map-viewport');
   const bar = document.getElementById('progress-fill');
@@ -396,7 +1454,15 @@ function bindScroll() {
   // 鼠标滚轮 → 横向滚动
   vp.addEventListener('wheel', (e) => {
     e.preventDefault();
-    vp.scrollLeft += e.deltaY * 2;  // 纵向滚轮转为横向
+    vp.scrollLeft += e.deltaY * 2;
+  }, {passive:false});
+
+  // 触控板横向手势（Mac 触控板产生 deltaX）
+  vp.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+      e.preventDefault();
+      vp.scrollLeft += e.deltaX;
+    }
   }, {passive:false});
 
   let ticking = false;
@@ -412,11 +1478,26 @@ function bindScroll() {
       route.style.strokeDashoffset = totalPathLen * (1 - pct);
     }
 
-    // 高亮节点
+    // 高亮节点 & 路径标记
     document.querySelectorAll('.node-ring').forEach(c => {
       const id = parseInt(c.id.replace('node-',''));
       c.classList.toggle('passed', id < done);
     });
+    document.querySelectorAll('.node-dot').forEach(c => {
+      const id = parseInt(c.id.replace('node-dot-',''));
+      c.classList.toggle('passed', id < done);
+    });
+    document.querySelectorAll('.route-marker').forEach(c => {
+      const id = parseInt(c.id.replace('rm-',''));
+      c.classList.toggle('passed', id < done);
+    });
+    // 更新进度里程碑
+    document.querySelectorAll('.progress-dot').forEach(d => {
+      const m = parseInt(d.id.replace('pm-',''));
+      d.classList.toggle('reached', m < done);
+    });
+    // 更新行进标记点
+    updateTraveler();
 
     ticking = false;
   };
@@ -428,18 +1509,23 @@ function bindScroll() {
   update();
 }
 
-// ============================================================
-// 面板
-// ============================================================
 function openPanel(idx) {
   const t = TRIB[idx];
   if (!t) return;
+  currentPanelIdx = idx;
+
+  // 涟漪动画
+  triggerRipple(idx);
 
   // 滚动地图使节点位于视图中央
   const vp = document.getElementById('map-viewport');
   const pt = nodePositions[idx];
   const targetX = pt.x - vp.clientWidth / 2;
   vp.scrollTo({left: Math.max(0, targetX), behavior: 'smooth'});
+
+  // 更新导航按钮状态
+  document.getElementById('btn-prev').disabled = idx <= 0;
+  document.getElementById('btn-next').disabled = idx >= TRIB.length - 1;
 
   document.getElementById('p-num').textContent = `第 ${t.id} 难 · 九九八十一难`;
   document.getElementById('p-name').textContent = t.name;
@@ -472,10 +1558,123 @@ function closePanel() {
   document.getElementById('panel').classList.remove('open');
   document.getElementById('overlay').classList.remove('on');
 }
-document.addEventListener('keydown', e => { if (e.key==='Escape') closePanel(); });
+let currentPanelIdx = -1;
+
+// 面板前后导航
+function navPanel(dir) {
+  const idx = currentPanelIdx + dir;
+  if (idx >= 0 && idx < TRIB.length) openPanel(idx);
+}
+
+// 键盘导航
+function handleKeyboard(e) {
+  // 面板打开时
+  if (document.getElementById('panel').classList.contains('open')) {
+    if (e.key === 'Escape') { closePanel(); return; }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); navPanel(-1); }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); navPanel(1); }
+    // 数字键快速跳转
+    if (e.key >= '1' && e.key <= '9' && !e.ctrlKey && !e.metaKey) {
+      const target = parseInt(e.key) - 1;
+      if (target < TRIB.length) openPanel(target);
+    }
+  }
+  // 面板关闭时
+  if (e.key === 'ArrowLeft') {
+    const vp = document.getElementById('map-viewport');
+    vp.scrollBy({left: -300, behavior: 'smooth'});
+    showKbdHint();
+  }
+  if (e.key === 'ArrowRight') {
+    const vp = document.getElementById('map-viewport');
+    vp.scrollBy({left: 300, behavior: 'smooth'});
+    showKbdHint();
+  }
+}
+
+let kbdTimer = null;
+function showKbdHint() {
+  const h = document.getElementById('kbd-hint');
+  h.style.opacity = '1';
+  clearTimeout(kbdTimer);
+  kbdTimer = setTimeout(() => { h.style.opacity = '0'; }, 2500);
+}
+document.addEventListener('keydown', handleKeyboard);
+
+// ============================================================
+// 漂浮粒子系统（金色星尘 + 霞光尘埃）
+// ============================================================
+const particles = [];
+const PARTICLE_COUNT = 80;
+
+function initParticles() {
+  const canvas = document.getElementById('particles-canvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+
+  // 颜色盘：暖金、淡橙、粉紫、白
+  const colors = [
+    'rgba(255,210,100,',   // 暖金
+    'rgba(255,180,80,',    // 橙金
+    'rgba(255,240,180,',   // 淡金白
+    'rgba(220,150,200,',   // 粉紫
+  ];
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height * 1.2,
+      r: Math.random() * 2.5 + 0.8,
+      vy: -(Math.random() * 0.3 + 0.1),
+      vx: (Math.random() - 0.5) * 0.3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      alpha: Math.random() * 0.5 + 0.3,
+      wobble: Math.random() * Math.PI * 2,
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const p of particles) {
+      p.y += p.vy;
+      p.x += p.vx + Math.sin(p.wobble) * 0.15;
+      p.wobble += 0.01;
+
+      // 循环：超出顶部或底部重新从底部升起
+      if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+      if (p.y > canvas.height + 10) { p.y = -10; p.x = Math.random() * canvas.width; }
+      if (p.x < -10) p.x = canvas.width + 10;
+      if (p.x > canvas.width + 10) p.x = -10;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + p.alpha + ')';
+      ctx.fill();
+
+      // 微光晕
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + (p.alpha * 0.2) + ')';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // 窗口大小变化时更新 canvas
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+}
 
 // ============================================================
 init();
+initParticles();
 </script>
 </body>
 </html>
